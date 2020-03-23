@@ -1,8 +1,6 @@
 import * as Actions from '../actions/actionTypes'
-const initialState = {
-    count: 0
-};
-const countReducer = (state = initialState, action) => {
+
+const CounterReducer = (state = {count: 0}, action) => {
     switch (action.type) {
         case Actions.COUNTER_INCREMENT:
             return Object.assign({}, state, {
@@ -16,4 +14,4 @@ const countReducer = (state = initialState, action) => {
             return state;
     }
 }
-export default countReducer;
+export default CounterReducer;

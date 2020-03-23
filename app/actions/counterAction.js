@@ -4,20 +4,20 @@ import * as Actions from './actionTypes';
 import CounterComponent from '../components/counterComponent';
 
 const mapStateToProps = (state) => ({
-    count: state.counterReducer.count
+    count: state.CounterReducer.count
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     increment: () => dispatch(counterIncrement),
-    decrement: () => dispatch(counterDecrement),    
+    decrement: () => dispatch(counterDecrement)   
 });
 
-export const counterIncrement = () => ({
-    type: Actions.COUNTER_INCREMENT,
+const counterIncrement = () => ({
+    type: Actions.COUNTER_INCREMENT
 })
 
-export const counterDecrement = () => ({
-    type: Actions.COUNTER_DECREMENT,
+const counterDecrement = () => ({
+    type: Actions.COUNTER_DECREMENT
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CounterComponent)
