@@ -6,6 +6,8 @@ import {
     Text,
     TextInput,
 } from 'react-native';
+// import Svg from '../svgComponent/svgComponent';
+import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 import Reactotron from 'reactotron-react-native'
@@ -62,6 +64,11 @@ class RegisterComponent extends Component {
         return (
             <View style={styles.background}>
                 <LinearGradient colors={['#C4DDEA', '#EBCDD6', '#F5EBC6']}>
+                    <View style={styles.navigationArea} onStartShouldSetResponder={()=> this.props.navigation.navigate('LoginScreen')}>
+                        <SvgUri source={require('../../assets/backArrow.svg')}width="40" height="40"
+                        />
+                    </View>
+
                     <View style={styles.titleArea}>
                         <Text style={styles.titleArea__title}>Ecommerce</Text>
                         <Text style={styles.titleArea__title}>Store</Text>

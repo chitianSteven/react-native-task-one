@@ -6,8 +6,12 @@ import {
 const styles = StyleSheet.create({
     background: {
     },
+    navigationArea: {
+        paddingTop: 5,
+        paddingLeft: 10,
+    },
     titleArea: {
-        height: 300,
+        height: 250,
         alignItems: 'center',
         justifyContent: 'center',
     },
