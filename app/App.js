@@ -21,6 +21,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as changeCount from './actions/counts'
 import LoginComponent from './components/loginComponent/loginComponent'
 import RegisterComponent from './components/registerComponent/registerComponent'
+import MainPageComponent from './components/mainPageComponent/mainPageComponent'
 
 function LoginScreen({ navigation }) {
   return (
@@ -34,37 +35,18 @@ function RegisterScreen({ navigation }) {
   );
 }
 
+function MainPageScreen({ navigation }) {
+  return (
+    <MainPageComponent navigation={navigation} ></MainPageComponent>
+  );
+}
+
 const Stack = createStackNavigator();
 
 class App extends Component {
 
-  // decrementCount() {
-  //   let { count, actions } = this.props;
-  //   count.count--;
-  //   actions.changeCount(count.count);
-  // }
-
-  // incrementCount() {
-  //   let { count, actions } = this.props;
-  //   count.count++;
-  //   actions.changeCount(count.count);
-  // }
-
   render() {
     return (
-      // <View styles={styles.container}>
-      //   <Button
-      //     title="increment"
-      //     onPress={() => this.incrementCount()}
-      //   />
-      //   <Text>{this.props.count.count}</Text>
-      //   <Button
-      //     title="decrement"
-      //     onPress={() => this.decrementCount()}
-      //   />
-      // </View>
-
-      // <LoginComponent></LoginComponent>
       <NavigationContainer>
         <Stack.Navigator headerMode="none">
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{
@@ -78,15 +60,25 @@ class App extends Component {
             },
           }} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{
-          title: 'RegisterScreen',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}/>
+            title: 'RegisterScreen',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }} />
+          <Stack.Screen name="MainPageScreen" component={MainPageScreen} options={{
+            title: 'MainPageScreen',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }} />
         </Stack.Navigator>
       </NavigationContainer>
     );

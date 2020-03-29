@@ -8,6 +8,14 @@ import {
 } from 'react-native';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
+import Dialog, {
+    DialogTitle,
+    DialogContent,
+    DialogFooter,
+    DialogButton,
+    SlideAnimation,
+    ScaleAnimation,
+} from 'react-native-popup-dialog';
 import Reactotron from 'reactotron-react-native'
 
 class LoginComponent extends Component {
@@ -16,7 +24,8 @@ class LoginComponent extends Component {
         super(props);
         this.state = {
             emailAddress: '',
-            password: ''
+            password: '',
+            showInfoDialog: false,
         };
 
         this.inputEmailAddress = this.inputEmailAddress.bind(this);
@@ -36,22 +45,29 @@ class LoginComponent extends Component {
     }
 
     signIn() {
-
+        this.getUserInfo();
     }
 
     getUserInfo() {
-        Reactotron.log('fetch')
-        fetch('http://34.73.95.65/index.php?rt=a/account/login&loginname=stevenChitian&password=123456789',
-            {
-                method: 'POST'
-            })
-            .then((responseJson) => {
-                Reactotron.log('get')
+        var obj = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic username:' + this.state.password
+            },
+            body: 'rt=a/account/login&loginname=' + this.state.emailAddress + '&password=' + this.state.password
+        }
+        fetch('http://34.73.95.65/index.php', obj)
+            .then((response) => {
                 this.setState({
                     isLoading: false,
-                    dataSource: responseJson,
+                    dataSource: response,
                 }, function () {
-                    Reactotron.log('function')
+                    if (response.status == 200) {
+                        this.props.navigation.navigate('MainPageScreen');
+                    } else {
+                        this.setState({ showInfoDialog: true });
+                    }
                 });
 
             })
@@ -61,7 +77,7 @@ class LoginComponent extends Component {
     }
 
     render() {
-        const { emailAddress, password } = this.state;
+        const { emailAddress, password, showInfoDialog } = this.state;
 
         return (
             <View style={styles.background}>
@@ -99,17 +115,59 @@ class LoginComponent extends Component {
                             />
                         </View>
                         <View style={styles.signInArea__signUp}>
-                            <Text 
-                            style={styles.link}
-                            onPress={()=> this.props.navigation.navigate('RegisterScreen')}
+                            <Text
+                                style={styles.link}
+                                onPress={() => this.props.navigation.navigate('RegisterScreen')}
                             >New here? Sign Up</Text>
                         </View>
                     </View>
 
                     <View style={styles.bottom}>
-                        <Text>{emailAddress}</Text>
-                        <Text>{password}</Text>
                     </View>
+
+                    <Dialog
+                        onDismiss={() => {
+                            this.setState({ showInfoDialog: false });
+                        }}
+                        width={0.85}
+                        visible={showInfoDialog}
+                        rounded
+                        actionsBordered
+                        dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
+                        dialogTitle={
+                            <DialogTitle
+                                title="Login Failed"
+                                textStyle={{
+                                    fontSize: 17,
+                                }}
+                                style={{
+                                    backgroundColor: '#ffffff',
+                                }}
+                                hasTitleBar={false}
+                                align="center" />
+                        }
+                        footer={
+                            <DialogFooter>
+                                <DialogButton
+                                    text="Ok"
+                                    textStyle={{
+                                        fontSize: 15,
+                                    }}
+                                    bordered
+                                    onPress={() => {
+                                        this.setState({ showInfoDialog: false });
+                                    }}
+                                    key="button-2" />
+                            </DialogFooter>
+                        }>
+                        <DialogContent
+                            style={{
+                                backgroundColor: '#ffffff',
+                                justifyContent: 'center', alignItems: 'center',
+                            }}>
+                            <Text>Please check your email address and password.</Text>
+                        </DialogContent>
+                    </Dialog>
                 </LinearGradient>
             </View>
         );

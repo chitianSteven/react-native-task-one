@@ -6,11 +6,9 @@ import {
     Text,
     TextInput,
 } from 'react-native';
-// import Svg from '../svgComponent/svgComponent';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
-import Reactotron from 'reactotron-react-native'
 
 class RegisterComponent extends Component {
 
