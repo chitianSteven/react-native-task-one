@@ -16,7 +16,8 @@ import Dialog, {
     SlideAnimation,
     ScaleAnimation,
 } from 'react-native-popup-dialog';
-import Reactotron from 'reactotron-react-native'
+import base64 from 'react-native-base64';
+import Reactotron from 'reactotron-react-native';
 
 class LoginComponent extends Component {
 
@@ -49,26 +50,26 @@ class LoginComponent extends Component {
     }
 
     getUserInfo() {
+        let formdata = new FormData();
+        formdata.append('email', this.state.emailAddress);
+        formdata.append('password', this.state.password);
         var obj = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: 'rt=a/account/login&loginname=' + this.state.emailAddress + '&password=' + this.state.password
+            body: formdata
         }
-        fetch('http://34.73.95.65/index.php', obj)
+        fetch('http://34.73.95.65/index.php?rt=a/account/login', obj)
+            .then((response) => response.json())    
             .then((response) => {
                 this.setState({
                     isLoading: false,
                     dataSource: response,
                 }, function () {
-                    if (response.status == 200) {
+                    if (response.status == 1 && response.success) {
                         this.props.navigation.navigate('MainPageScreen');
                     } else {
                         this.setState({ showInfoDialog: true });
                     }
                 });
-
             })
             .catch((error) => {
                 console.error(error);
