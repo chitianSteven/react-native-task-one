@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     categoryList: {
         height: 120,
         borderBottomWidth: 15,
-        borderBottomColor: '#EBEBEB',
+        borderBottomColor: '#D5D5D5',
         flexDirection: 'row',
         justifyContent: 'flex-start',
     },
@@ -110,10 +110,12 @@ const styles = StyleSheet.create({
     productionList__content__item__imageContainer: {
         width: '100%',
         height: '80%',
+        borderRadius: 5,
     },
     productionList__content__item__image: {
         width: '100%',
         height: '100%',
+        borderRadius: 5,
     },
     productionList__content__item__name: {
         fontSize: 12,

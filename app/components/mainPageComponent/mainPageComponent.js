@@ -63,10 +63,15 @@ class RegisterComponent extends Component {
         };
 
         this.inputSearch = this.inputSearch.bind(this);
+        this.getProductDetails = this.getProductDetails.bind(this);
     }
 
     inputSearch() {
 
+    }
+
+    getProductDetails() {
+        this.props.navigation.navigate('ProductDetailsPageScreen');
     }
 
     render() {
@@ -122,22 +127,24 @@ class RegisterComponent extends Component {
                     </View>
 
                     <View style={styles.productionList__content}>
-                        {products[0].productions.map(function (item) {
+                        {products[0].productions.map((item) => {
                             return (
-                                <View style={styles.productionList__content__item}>
-                                    <View style={styles.productionList__content__item__imageContainer}>
-                                        <Image
-                                            style={styles.productionList__content__item__image}
-                                            source={item.picture}
-                                        />
+                                <TouchableHighlight style={styles.productionList__content__item} onPress={() => this.getProductDetails()}>
+                                    <View>
+                                        <View style={styles.productionList__content__item__imageContainer}>
+                                            <Image
+                                                style={styles.productionList__content__item__image}
+                                                source={item.picture}
+                                            />
+                                        </View>
+                                        <Text style={styles.productionList__content__item__name}>{item.productName}</Text>
+                                        <View style={styles.productionList__content__item__price}>
+                                            <Text style={styles.productionList__content__item__price__curPrice}>{item.curPrice}</Text>
+                                            <Text style={styles.productionList__content__item__price__prePrice}>{item.prePrice}</Text>
+                                            <Text style={styles.productionList__content__item__price__discount}>{item.discount}</Text>
+                                        </View>
                                     </View>
-                                    <Text style={styles.productionList__content__item__name}>{item.productName}</Text>
-                                    <View style={styles.productionList__content__item__price}>
-                                        <Text style={styles.productionList__content__item__price__curPrice}>{item.curPrice}</Text>
-                                        <Text style={styles.productionList__content__item__price__prePrice}>{item.prePrice}</Text>
-                                        <Text style={styles.productionList__content__item__price__discount}>{item.discount}</Text>
-                                    </View>
-                                </View>
+                                </TouchableHighlight>
                             )
                         })
                         }

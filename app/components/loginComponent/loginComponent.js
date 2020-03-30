@@ -52,8 +52,7 @@ class LoginComponent extends Component {
         var obj = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic username:' + this.state.password
+                'Content-Type': 'application/json'
             },
             body: 'rt=a/account/login&loginname=' + this.state.emailAddress + '&password=' + this.state.password
         }

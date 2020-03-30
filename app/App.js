@@ -22,6 +22,7 @@ import * as changeCount from './actions/counts'
 import LoginComponent from './components/loginComponent/loginComponent'
 import RegisterComponent from './components/registerComponent/registerComponent'
 import MainPageComponent from './components/mainPageComponent/mainPageComponent'
+import ProductDetailsPageComponent from './components/productDetailsPageComponent/productDetailsPageComponent'
 
 function LoginScreen({ navigation }) {
   return (
@@ -41,44 +42,48 @@ function MainPageScreen({ navigation }) {
   );
 }
 
+function ProductDetailsPageScreen({ navigation }) {
+  return (
+    <ProductDetailsPageComponent navigation={navigation} ></ProductDetailsPageComponent>
+  );
+}
+
 const Stack = createStackNavigator();
+const pages = [
+  {
+    'name': 'LoginScreen',
+    'component': LoginScreen
+  }, {
+    'name':'RegisterScreen', 
+    'component': RegisterScreen
+  }, {
+    'name':'MainPageScreen', 
+    'component': MainPageScreen
+  }, {
+    'name':'ProductDetailsPageScreen', 
+    'component': ProductDetailsPageScreen
+  }]
 
 class App extends Component {
-
   render() {
     return (
       <NavigationContainer>
         <Stack.Navigator headerMode="none">
-          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{
-            title: 'LoginScreen',
-            headerStyle: {
-              backgroundColor: '#f4511e',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }} />
-          <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{
-            title: 'RegisterScreen',
-            headerStyle: {
-              backgroundColor: '#f4511e',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }} />
-          <Stack.Screen name="MainPageScreen" component={MainPageScreen} options={{
-            title: 'MainPageScreen',
-            headerStyle: {
-              backgroundColor: '#f4511e',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }} />
+          {pages.map(function (page) {
+            return (
+
+              <Stack.Screen name={page.name} component={page.component} options={{
+                title: page.name,
+                headerStyle: {
+                  backgroundColor: '#f4511e',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              }} />
+            )
+          })}
         </Stack.Navigator>
       </NavigationContainer>
     );
