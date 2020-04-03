@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
+import {createDrawerNavigator} from 'react-navigation';
 import Reactotron from 'reactotron-react-native'
 
 class RegisterComponent extends Component {
@@ -64,6 +65,7 @@ class RegisterComponent extends Component {
 
         this.inputSearch = this.inputSearch.bind(this);
         this.getProductDetails = this.getProductDetails.bind(this);
+        this.openDrawerScreen = this.openDrawerScreen.bind(this);
     }
 
     inputSearch() {
@@ -74,14 +76,20 @@ class RegisterComponent extends Component {
         this.props.navigation.navigate('ProductDetailsPageScreen');
     }
 
+    openDrawerScreen() {
+        this.props.navigation.toggleDrawer();
+    }
+
     render() {
         const { search, categoryList, products } = this.state;
 
         return (
             <View style={styles.background}>
                 <View style={styles.headerBar}>
-                    <SvgUri source={this.state.menuIcon} width="30" height="30"
+                    <TouchableHighlight onPress={() => this.openDrawerScreen()}>
+                        <SvgUri source={this.state.menuIcon} width="30" height="30"
                     />
+                    </TouchableHighlight>
                     <Text  style={styles.headerBar__title}>Ecommerce Store</Text>
                     <SvgUri source={this.state.cartIcon} width="30" height="30"
                     />

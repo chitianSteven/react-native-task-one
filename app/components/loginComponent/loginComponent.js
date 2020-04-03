@@ -58,7 +58,7 @@ class LoginComponent extends Component {
             body: formdata
         }
         fetch('http://34.73.95.65/index.php?rt=a/account/login', obj)
-            .then((response) => response.json())    
+            .then((response) => response.json())
             .then((response) => {
                 this.setState({
                     isLoading: false,

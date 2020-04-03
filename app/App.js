@@ -8,21 +8,22 @@
 
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Button,
-  Text
-} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import * as changeCount from './actions/counts'
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import LoginComponent from './components/loginComponent/loginComponent'
 import RegisterComponent from './components/registerComponent/registerComponent'
 import MainPageComponent from './components/mainPageComponent/mainPageComponent'
 import ProductDetailsPageComponent from './components/productDetailsPageComponent/productDetailsPageComponent'
+import DrawerComponent from './components/drawerComponent/drawerComponent'
+
+function DrawerScreen({ navigation }) {
+  return (
+    <DrawerComponent navigation={navigation} ></DrawerComponent>
+  );
+}
 
 function LoginScreen({ navigation }) {
   return (
@@ -64,47 +65,36 @@ const pages = [
     'component': ProductDetailsPageScreen
   }]
 
+const MainStackScreen = () => (
+  <Stack.Navigator headerMode="none" initialRouteName="LoginScreen">
+    {pages.map(function (page) {
+      return (
+        <Stack.Screen name={page.name} component={page.component} />
+      )
+    })}
+  </Stack.Navigator>
+);
+
+const Root = createDrawerNavigator();
+
 class App extends Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator headerMode="none">
-          {pages.map(function (page) {
-            return (
-
-              <Stack.Screen name={page.name} component={page.component} options={{
-                title: page.name,
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
-              }} />
-            )
-          })}
-        </Stack.Navigator>
+        <Root.Navigator initialRouteName="MainStackScreen" drawerContent={DrawerScreen}>
+          <Root.Screen name="MainStackScreen" component={MainStackScreen} />
+        </Root.Navigator>
       </NavigationContainer>
     );
   }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
 
 const mapStateToProps = state => ({
   count: state.count,
 });
 
 const ActionCreators = Object.assign(
-  {},
-  changeCount
+  {}
 );
 
 const mapDispatchToProps = dispatch => ({

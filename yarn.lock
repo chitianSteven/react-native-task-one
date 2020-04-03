@@ -1001,6 +1001,14 @@
     shortid "^2.2.15"
     use-subscription "^1.4.0"
 
+"@react-navigation/drawer@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@react-navigation/drawer/download/@react-navigation/drawer-5.4.0.tgz#f9d9091e2de7e11f2bcc742a062ebf1d45509040"
+  integrity sha1-+dkJHi3n4R8rzHQqBi6/HUVQkEA=
+  dependencies:
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.2.1"
+
 "@react-navigation/native@^3.7.8":
   version "3.7.8"
   resolved "https://registry.npm.taobao.org/@react-navigation/native/download/@react-navigation/native-3.7.8.tgz#b96d3ae0a321169c9b2670cdaa99343ecde5157e"
@@ -2939,7 +2947,7 @@ fbjs-scripts@^1.1.0:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.9:
+fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.npm.taobao.org/fbjs/download/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -5431,7 +5439,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
-prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -5491,6 +5499,14 @@ range-parser@~1.2.1:
   resolved "https://registry.npm.taobao.org/range-parser/download/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha1-PPNwI9GZ4cJNGlW4SADC8+ZGgDE=
 
+react-addons-shallow-compare@15.6.2:
+  version "15.6.2"
+  resolved "https://registry.npm.taobao.org/react-addons-shallow-compare/download/react-addons-shallow-compare-15.6.2.tgz#198a00b91fc37623db64a28fd17b596ba362702f"
+  integrity sha1-GYoAuR/DdiPbZKKP0XtZa6NicC8=
+  dependencies:
+    fbjs "^0.8.4"
+    object-assign "^4.1.0"
+
 react-devtools-core@^3.6.3:
   version "3.6.3"
   resolved "https://registry.npm.taobao.org/react-devtools-core/download/react-devtools-core-3.6.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-devtools-core%2Fdownload%2Freact-devtools-core-3.6.3.tgz#977d95b684c6ad28205f0c62e1e12c5f16675814"
@@ -5509,6 +5525,11 @@ react-native-base64@0.0.2:
   resolved "https://registry.npm.taobao.org/react-native-base64/download/react-native-base64-0.0.2.tgz#c28463c2c6779ac3ec5fdd12979ebc8c5f9b410a"
   integrity sha1-woRjwsZ3msPsX90Sl568jF+bQQo=
 
+react-native-fast-image@^8.1.5:
+  version "8.1.5"
+  resolved "https://registry.npm.taobao.org/react-native-fast-image/download/react-native-fast-image-8.1.5.tgz#0a6404c988dad68c98d26f91155d0a5293ba2ea5"
+  integrity sha1-CmQEyYja1oyY0m+RFV0KUpO6LqU=
+
 react-native-flipper@^0.34.0:
   version "0.34.0"
   resolved "https://registry.npm.taobao.org/react-native-flipper/download/react-native-flipper-0.34.0.tgz#7df1f38ba5d97a9321125fe0fccbe47d99e6fa1d"
@@ -5523,6 +5544,13 @@ react-native-gesture-handler@^1.6.1:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-image-slider-box@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.npm.taobao.org/react-native-image-slider-box/download/react-native-image-slider-box-1.0.11.tgz#3eeecaf7ae4f2340a34c4af405c625bb3903853e"
+  integrity sha1-Pu7K965PI0CjTEr0BcYluzkDhT4=
+  dependencies:
+    react-native-snap-carousel "*"
 
 react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
@@ -5576,6 +5604,14 @@ react-native-screens@^2.4.0:
   integrity sha1-dwbyTZQt7jh2JgFO5NlglKPRuc4=
   dependencies:
     debounce "^1.2.0"
+
+react-native-snap-carousel@*:
+  version "3.8.4"
+  resolved "https://registry.npm.taobao.org/react-native-snap-carousel/download/react-native-snap-carousel-3.8.4.tgz#4c749c6a714d46ed82de527233850cb5da41bc62"
+  integrity sha1-THScanFNRu2C3lJyM4UMtdpBvGI=
+  dependencies:
+    prop-types "^15.6.1"
+    react-addons-shallow-compare "15.6.2"
 
 react-native-svg-uri@^1.2.3:
   version "1.2.3"
