@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#D5D5D5',
         flexDirection: 'row',
         justifyContent: 'flex-start',
+        overflow: "scroll",
     },
     categoryList__item: {
         width: 90,

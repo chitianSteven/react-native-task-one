@@ -10,6 +10,7 @@ import {
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
 import Reactotron from 'reactotron-react-native'
+import reactotron from 'reactotron-react-native';
 
 class RegisterComponent extends Component {
 
@@ -17,6 +18,7 @@ class RegisterComponent extends Component {
         super(props);
         const prefixForAssets = '../../assets/';
         this.state = {
+            dataSource: {},
             search: '',
             searchIcon: require(prefixForAssets + 'search.svg'),
             cartWhiteIcon: require(prefixForAssets + 'cart-white.svg'),
@@ -63,12 +65,50 @@ class RegisterComponent extends Component {
         };
 
         this.inputSearch = this.inputSearch.bind(this);
+        this.getAllCategories = this.getAllCategories.bind(this);
+        this.filterDataSource = this.filterDataSource.bind(this);
         this.getProductDetails = this.getProductDetails.bind(this);
         this.openDrawerScreen = this.openDrawerScreen.bind(this);
+
+        this.getAllCategories();
     }
 
     inputSearch() {
 
+    }
+
+    getAllCategories() {
+        fetch('http://34.73.95.65/index.php?rt=a/product/category&category_id=0')
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    dataSource: response,
+                });
+                this.filterDataSource();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    filterDataSource() {
+        let categoryList = [];
+
+        if (this.state && this.state.dataSource && this.state.dataSource.subcategories) {
+            this.state.dataSource.subcategories.map((item) => {
+                Reactotron.log("item", item)
+                categoryList.push({
+                    name: item.name,
+                    picture: item.thumb
+                })
+            })
+        }
+        Reactotron.log("categoryList", categoryList)
+
+        this.setState({
+            categoryList: categoryList,
+        })
+        Reactotron.log("state------", this.state)
     }
 
     getProductDetails() {
