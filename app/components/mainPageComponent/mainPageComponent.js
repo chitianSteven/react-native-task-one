@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
-import {createDrawerNavigator} from 'react-navigation';
 import Reactotron from 'reactotron-react-native'
 
 class RegisterComponent extends Component {
@@ -20,7 +19,7 @@ class RegisterComponent extends Component {
         this.state = {
             search: '',
             searchIcon: require(prefixForAssets + 'search.svg'),
-            cartIcon: require(prefixForAssets + 'cart.svg'),
+            cartWhiteIcon: require(prefixForAssets + 'cart-white.svg'),
             menuIcon: require(prefixForAssets + 'menu.svg'),
             categoryList: [
                 {
@@ -91,7 +90,7 @@ class RegisterComponent extends Component {
                     />
                     </TouchableHighlight>
                     <Text  style={styles.headerBar__title}>Ecommerce Store</Text>
-                    <SvgUri source={this.state.cartIcon} width="30" height="30"
+                    <SvgUri source={this.state.cartWhiteIcon} width="30" height="30"
                     />
                 </View>
                 

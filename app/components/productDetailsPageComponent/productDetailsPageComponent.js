@@ -3,10 +3,7 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    TextInput,
     TouchableHighlight,
-    Image,
-    Button,
 } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import { SliderBox } from "react-native-image-slider-box";
@@ -21,9 +18,9 @@ class ProductDetailsPageComponent extends Component {
         const prefixForAssets = '../../assets/';
         this.state = {
             searchIcon: require(prefixForAssets + 'search2.svg'),
-            cartIcon: require(prefixForAssets + 'cart.svg'),
+            cartWhiteIcon: require(prefixForAssets + 'cart-white.svg'),
             backIcon: require(prefixForAssets + 'backArrow-white.svg'),
-            heartIcon: require(prefixForAssets + 'heart.svg'),
+            heartEmptyIcon: require(prefixForAssets + 'heart-empty.svg'),
             product: {
                 productName: 'Xiaomi Mi A3',
                 picture: require(prefixForAssets + 'xiaomiMiA3.jpg'),
@@ -49,7 +46,7 @@ class ProductDetailsPageComponent extends Component {
     }
 
     render() {
-        const { searchIcon, cartIcon, backIcon, heartIcon, product } = this.state;
+        const { searchIcon, cartWhiteIcon, backIcon, heartEmptyIcon, product } = this.state;
 
         return (
             <View style={styles.background}>
@@ -61,7 +58,7 @@ class ProductDetailsPageComponent extends Component {
                     <View style={styles.headerBar__searchAndCart}>
                         <SvgUri source={searchIcon} width="30" height="30"
                         />
-                        <SvgUri source={cartIcon} width="30" height="30"
+                        <SvgUri source={cartWhiteIcon} width="30" height="30"
                         />
                     </View>
                 </View>
@@ -126,7 +123,7 @@ class ProductDetailsPageComponent extends Component {
                     <TouchableHighlight style={styles.actionButtonArea__button}>
                         <View style={styles.actionButtonArea__button__wishList}>
                             <View style={styles.actionButtonArea__button__wishListIcon}>
-                                <SvgUri source={this.state.heartIcon} width="25" height="25"
+                                <SvgUri source={heartEmptyIcon} width="25" height="25"
                                 />
                             </View>
                             <Text style={styles.actionButtonArea__button__wishListLabel}>WishList</Text>

@@ -14,9 +14,7 @@ import Dialog, {
     DialogFooter,
     DialogButton,
     SlideAnimation,
-    ScaleAnimation,
 } from 'react-native-popup-dialog';
-import base64 from 'react-native-base64';
 import Reactotron from 'reactotron-react-native';
 
 class LoginComponent extends Component {

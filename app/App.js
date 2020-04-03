@@ -90,7 +90,6 @@ class App extends Component {
 };
 
 const mapStateToProps = state => ({
-  count: state.count,
 });
 
 const ActionCreators = Object.assign(
