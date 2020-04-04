@@ -93,6 +93,7 @@ class LoginComponent extends Component {
                             defaultValue={emailAddress}>
                         </TextInput>
                         <TextInput
+                            secureTextEntry={true}
                             style={styles.inputArea__inputField}
                             placeholder={'Password'}
                             onChangeText={text => this.inputPassword(text)}

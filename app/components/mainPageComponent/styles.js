@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     productionList: {
-        height: 800,
+        height: 520,
     },
     productionList__headerBar: {
         height: 40,
@@ -96,13 +96,12 @@ const styles = StyleSheet.create({
         lineHeight: 22,
     },
     productionList__content: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+        flex: 1,
     },
     productionList__content__item: {
-        width: '47%',
-        height: 200,
-        marginLeft: '2%',
+        width: 160,
+        height: 300,
+        marginLeft: 10,
         marginTop: 5,
         borderColor: '#E7E7E7',
         borderRadius: 5,

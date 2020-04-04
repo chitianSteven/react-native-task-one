@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
     View,
@@ -6,11 +5,19 @@ import {
     TextInput,
     TouchableHighlight,
     Image,
+    FlatList,
+    ScrollView,
 } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
 import Reactotron from 'reactotron-react-native'
-import reactotron from 'reactotron-react-native';
+
+const escapeHtml = [
+    {
+        html: "&amp;",
+        string: "&",
+    }
+]
 
 class RegisterComponent extends Component {
 
@@ -18,58 +25,27 @@ class RegisterComponent extends Component {
         super(props);
         const prefixForAssets = '../../assets/';
         this.state = {
-            dataSource: {},
+            categorySource: {},
+            curCategoryId: 0,
+            refreshing: false,
             search: '',
             searchIcon: require(prefixForAssets + 'search.svg'),
             cartWhiteIcon: require(prefixForAssets + 'cart-white.svg'),
             menuIcon: require(prefixForAssets + 'menu.svg'),
-            categoryList: [
-                {
-                    name: 'Electronics',
-                    picture: require(prefixForAssets + 'electronics.png')
-                }, {
-                    name: 'CLOTH',
-                    picture: require(prefixForAssets +'cloth.jpeg')
-                }, {
-                    name: 'FURNITURES',
-                    picture: require(prefixForAssets +'furnitures.jpg')
-                }],
-            products: [
-                {
-                    categoryName: 'Electronics',
-                    productions: [
-                        {
-                            productName: 'Xiaomi Mi A3',
-                            picture: require(prefixForAssets +'xiaomiMiA3.jpg'),
-                            curPrice: '$ 222',
-                            prePrice: '$ 224',
-                            discount: '9% Off'
-                        },
-                        {
-                            productName: 'OPPO K3',
-                            picture: require(prefixForAssets +'oppoK3.jpg'),
-                            curPrice: '$ 150',
-                            prePrice: '$ 200',
-                            discount: '25% Off'
-                        },
-                        {
-                            productName: 'iPhone XR',
-                            picture: require(prefixForAssets +'iphoneXR.jpg'),
-                            curPrice: '$ 849',
-                            prePrice: '$ 749',
-                            discount: ' '
-                        }
-                    ]
-                }
-            ]
+            categoryList: [],
+            products: []
         };
 
         this.inputSearch = this.inputSearch.bind(this);
+        this.onRefresh = this.onRefresh.bind(this);
+        this.selectCategory = this.selectCategory.bind(this);
+        this.getProductsInfo = this.getProductsInfo.bind(this);
+        this.getPriceWithCurrency = this.getPriceWithCurrency.bind(this);
         this.getAllCategories = this.getAllCategories.bind(this);
-        this.filterDataSource = this.filterDataSource.bind(this);
+        this.filterCategorySource = this.filterCategorySource.bind(this);
         this.getProductDetails = this.getProductDetails.bind(this);
         this.openDrawerScreen = this.openDrawerScreen.bind(this);
-
+        this.htmlUnescape = this.htmlUnescape.bind(this);
         this.getAllCategories();
     }
 
@@ -77,38 +53,100 @@ class RegisterComponent extends Component {
 
     }
 
+    onRefresh() {
+        this.setState({
+            refreshing: true,
+        },  () => {
+            this.getProductsInfo();
+        });
+    }
+
+    selectCategory(categoryId) {
+        this.setState({
+            curCategoryId: categoryId
+        });
+        this.getProductsInfo();
+    }
+
+    getProductsInfo() {
+        let productions = [];
+
+        if (!this.state.categorySource || !this.state.categorySource.subcategories) {
+            return 
+        }
+
+        fetch('http://34.73.95.65/index.php?rt=a/product/filter&category_id=' + this.state.curCategoryId)
+        .then((response) => response.json())
+        .then((response) => {
+            response.rows.map((item)=> {
+                let prePrice = '';
+                if (item.cell.rating) {
+                    prePrice = parseInt(item.cell.price) - parseInt(item.cell.price) * parseInt(item.cell.rating)/100;
+                }
+                productions.push({
+                    productName: item.cell.name,
+                    picture: item.cell.thumb,
+                    curPrice: this.getPriceWithCurrency(item.cell.price, item.cell.currency_code),
+                    prePrice: this.getPriceWithCurrency(prePrice, item.cell.currency_code),
+                    discount: item.cell.rating?item.cell.rating+"% Off":null,
+                })
+            })
+            const curCategory = this.state.categoryList.filter(category => category.category_id === this.state.curCategoryId);
+            
+            this.setState({
+                products: [{
+                    subCategoryName: curCategory[0].name,
+                    productions: productions,
+                }]
+            })
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
+    getPriceWithCurrency(value, currency) {
+        if (!value) return 
+        switch(currency) {
+            case "USD":
+                return "$ " +  value
+        }
+    }
+
     getAllCategories() {
         fetch('http://34.73.95.65/index.php?rt=a/product/category&category_id=0')
             .then((response) => response.json())
             .then((response) => {
+                let curCategoryId = this.state.curCategoryId === 0?response.subcategories[0].category_id:this.state.curCategoryId;
                 this.setState({
-                    dataSource: response,
+                    categorySource: response,
+                    curCategoryId: curCategoryId,
                 });
-                this.filterDataSource();
+                this.filterCategorySource();
+                this.getProductsInfo();
             })
             .catch((error) => {
                 console.error(error);
             });
     }
+    
 
-    filterDataSource() {
+    filterCategorySource() {
         let categoryList = [];
 
-        if (this.state && this.state.dataSource && this.state.dataSource.subcategories) {
-            this.state.dataSource.subcategories.map((item) => {
-                Reactotron.log("item", item)
+        if (this.state && this.state.categorySource && this.state.categorySource.subcategories) {
+            this.state.categorySource.subcategories.map((item) => {                
                 categoryList.push({
-                    name: item.name,
-                    picture: item.thumb
+                    name: this.htmlUnescape(item.name),
+                    picture: item.thumb,
+                    category_id: item.category_id,
                 })
             })
         }
-        Reactotron.log("categoryList", categoryList)
 
         this.setState({
             categoryList: categoryList,
         })
-        Reactotron.log("state------", this.state)
     }
 
     getProductDetails() {
@@ -117,6 +155,16 @@ class RegisterComponent extends Component {
 
     openDrawerScreen() {
         this.props.navigation.toggleDrawer();
+    }
+
+    htmlUnescape(text) {
+        escapeHtml.map((item)=> {
+            if (text.indexOf(item.html)) {
+                text = text.replace(item.html, item.string);
+            }
+        })
+
+        return text;
     }
 
     render() {
@@ -149,54 +197,76 @@ class RegisterComponent extends Component {
                 </View>
 
                 <View style={styles.categoryList}>
-                    {categoryList.map(function (item) {
-                        return (
-                            <View style={styles.categoryList__item}>
-                                <View style={styles.categoryList__item__imageContainer}>
-                                    <Image
-                                        style={styles.categoryList__item__image}
-                                        source={item.picture}
+                    <FlatList
+                        data={categoryList}
+                        keyExtractor={(item, index) => index}
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({item, index, separators}) => (
+                            <TouchableHighlight
+                              onPress={() => this.selectCategory(item.category_id)}>
+                                <View style={styles.categoryList__item}>
+                                    <View style={styles.categoryList__item__imageContainer}>
+                                        <Image
+                                            source={{ uri: 'http:' + item.picture }}
+                                            style={{ width: 50, height: 50 }}
+                                        />
+                                    </View>
+                                    <Text style={styles.categoryList__item__name}>{item.name}</Text>
+                                </View>
+                            </TouchableHighlight>
+                          )}
+                    />
+                </View>
+
+                <ScrollView style={styles.productionList}>
+                    <FlatList
+                        style={styles.productionList__content}
+                        data={products}
+                        horizontal={false}
+                        keyExtractor={(item, index) => index}
+                        numColumns={1}
+                        onRefresh={this.onRefresh}
+                        refreshing={this.state.refreshing}
+                        renderItem={({ item, index, separators }) => (
+                            <View>
+                                <View style={styles.productionList__headerBar}>
+                                    <Text style={styles.productionList__headerBar__title}>{item.subCategoryName}</Text>
+                                    <TouchableHighlight style={styles.productionList__headerBar__button}>
+                                        <Text style={styles.productionList__headerBar__button__label}>View All</Text>
+                                    </TouchableHighlight >
+                                </View>
+
+                                <View style={styles.productionList__content}>
+                                    <FlatList
+                                        style={styles.productionList__content}
+                                        data={item.productions}
+                                        keyExtractor={(item, index) => index}
+                                        numColumns={2}
+                                        renderItem={({ item, index, separators }) => (
+                                            <TouchableHighlight style={styles.productionList__content__item} onPress={() => this.getProductDetails()}>
+                                                <View>
+                                                    <View style={styles.productionList__content__item__imageContainer}>
+                                                        <Image
+                                                            style={styles.productionList__content__item__image}
+                                                            source={{ uri: 'http:' + item.picture }}
+                                                        />
+                                                    </View>
+                                                    <Text style={styles.productionList__content__item__name}>{item.productName}</Text>
+                                                    <View style={styles.productionList__content__item__price}>
+                                                        <Text style={styles.productionList__content__item__price__curPrice}>{item.curPrice}</Text>
+                                                        <Text style={styles.productionList__content__item__price__prePrice}>{item.prePrice}</Text>
+                                                        <Text style={styles.productionList__content__item__price__discount}>{item.discount}</Text>
+                                                    </View>
+                                                </View>
+                                            </TouchableHighlight>
+                                        )}
                                     />
                                 </View>
-                                <Text style={styles.categoryList__item__name}>{item.name}</Text>
                             </View>
-                        )
-                    })
-                    }
-                </View>
-
-                <View style={styles.productionList}>
-                    <View style={styles.productionList__headerBar}>
-                        <Text style={styles.productionList__headerBar__title}>Electronics</Text>
-                        <TouchableHighlight style={styles.productionList__headerBar__button}>
-                            <Text style={styles.productionList__headerBar__button__label}>View All</Text>
-                        </TouchableHighlight >
-                    </View>
-
-                    <View style={styles.productionList__content}>
-                        {products[0].productions.map((item) => {
-                            return (
-                                <TouchableHighlight style={styles.productionList__content__item} onPress={() => this.getProductDetails()}>
-                                    <View>
-                                        <View style={styles.productionList__content__item__imageContainer}>
-                                            <Image
-                                                style={styles.productionList__content__item__image}
-                                                source={item.picture}
-                                            />
-                                        </View>
-                                        <Text style={styles.productionList__content__item__name}>{item.productName}</Text>
-                                        <View style={styles.productionList__content__item__price}>
-                                            <Text style={styles.productionList__content__item__price__curPrice}>{item.curPrice}</Text>
-                                            <Text style={styles.productionList__content__item__price__prePrice}>{item.prePrice}</Text>
-                                            <Text style={styles.productionList__content__item__price__discount}>{item.discount}</Text>
-                                        </View>
-                                    </View>
-                                </TouchableHighlight>
-                            )
-                        })
-                        }
-                    </View>
-                </View>
+                        )}
+                    />
+                </ScrollView>
             </View>
         );
     }
