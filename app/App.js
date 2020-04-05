@@ -25,44 +25,20 @@ function DrawerScreen({ navigation }) {
   );
 }
 
-function LoginScreen({ navigation }) {
-  return (
-    <LoginComponent navigation={navigation} ></LoginComponent>
-  );
-}
-
-function RegisterScreen({ navigation }) {
-  return (
-    <RegisterComponent navigation={navigation} ></RegisterComponent>
-  );
-}
-
-function MainPageScreen({ navigation }) {
-  return (
-    <MainPageComponent navigation={navigation} ></MainPageComponent>
-  );
-}
-
-function ProductDetailsPageScreen({ navigation }) {
-  return (
-    <ProductDetailsPageComponent navigation={navigation} ></ProductDetailsPageComponent>
-  );
-}
-
 const Stack = createStackNavigator();
 const pages = [
   {
     'name': 'LoginScreen',
-    'component': LoginScreen
+    'component': LoginComponent
   }, {
     'name':'RegisterScreen', 
-    'component': RegisterScreen
+    'component': RegisterComponent
   }, {
     'name':'MainPageScreen', 
-    'component': MainPageScreen
+    'component': MainPageComponent
   }, {
     'name':'ProductDetailsPageScreen', 
-    'component': ProductDetailsPageScreen
+    'component': ProductDetailsPageComponent
   }]
 
 const MainStackScreen = () => (

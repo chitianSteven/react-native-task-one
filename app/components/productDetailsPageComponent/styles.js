@@ -4,7 +4,9 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
-    background: {},
+    background: {
+        paddingBottom: 80,
+    },
     headerBar: {
         height: 60,
         flexDirection: 'row',
@@ -22,6 +24,16 @@ const styles = StyleSheet.create({
     productMainInfoArea: {
         borderBottomWidth: 15,
         borderBottomColor: '#D5D5D5',
+    },
+    productMainInfoArea__imageContainer: {
+        borderRadius: 5,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    productMainInfoArea__image: {
+        width: 300,
+        height: 300,
     },
     productMainInfoArea__stockStatus: {
         flexDirection: "row",
@@ -95,6 +107,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold",
     },
+    descriptionArea: {
+    }, 
     descriptionArea__description: {
         fontWeight: "bold",
         paddingLeft: 10,

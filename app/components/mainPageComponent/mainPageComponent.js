@@ -7,17 +7,13 @@ import {
     Image,
     FlatList,
     ScrollView,
+    RefreshControl,
+    ActivityIndicator,
 } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
+import transfromEscapeCharacter from '../../reducers/transfromEscapeCharacter';
 import Reactotron from 'reactotron-react-native'
-
-const escapeHtml = [
-    {
-        html: "&amp;",
-        string: "&",
-    }
-]
 
 class RegisterComponent extends Component {
 
@@ -25,8 +21,11 @@ class RegisterComponent extends Component {
         super(props);
         const prefixForAssets = '../../assets/';
         this.state = {
+            fHeight : 0,
+            page: 1,
             categorySource: {},
             curCategoryId: 0,
+            loading: false,
             refreshing: false,
             search: '',
             searchIcon: require(prefixForAssets + 'search.svg'),
@@ -45,12 +44,18 @@ class RegisterComponent extends Component {
         this.filterCategorySource = this.filterCategorySource.bind(this);
         this.getProductDetails = this.getProductDetails.bind(this);
         this.openDrawerScreen = this.openDrawerScreen.bind(this);
-        this.htmlUnescape = this.htmlUnescape.bind(this);
+        this.handleLoadMore = this.handleLoadMore.bind(this);
+        this.renderFooter = this.renderFooter.bind(this);
+        this.renderSeparator = this.renderSeparator.bind(this);
+        this.emptyComponent = this.emptyComponent.bind(this);
+    }
+
+    componentWillMount() {
         this.getAllCategories();
     }
 
-    inputSearch() {
-
+    inputSearch(keyword) {
+        this.getProductsInfo(keyword);
     }
 
     onRefresh() {
@@ -60,6 +65,49 @@ class RegisterComponent extends Component {
             this.getProductsInfo();
         });
     }
+    
+    handleLoadMore() {
+        Reactotron.log("handleLoadMore")
+        if (!this.state.loading) {
+            this.page = this.page + 1;
+            // this.fetchUser(this.page);
+        }
+    };
+
+    renderFooter() {
+        Reactotron.log("renderFooter")
+        if (!this.state.loading) return null;
+        return (
+            <ActivityIndicator
+                style={{ color: '#000' }}
+            />
+        );
+    };
+
+    renderSeparator() {
+        Reactotron.log("renderSeparator")
+        return (
+            <View
+                style={{
+                    height: 2,
+                    width: '100%',
+                    backgroundColor: '#CED0CE'
+                }}
+            />
+        );
+    };
+
+    emptyComponent() {
+        return <View style={{
+            height: this.state.fHeight,
+            alignItems: 'center',
+            justifyContent: 'center',
+        }}>
+            <Text style={{
+                fontSize: 16
+            }}>Loading...</Text>
+        </View>
+    }
 
     selectCategory(categoryId) {
         this.setState({
@@ -68,14 +116,22 @@ class RegisterComponent extends Component {
         this.getProductsInfo();
     }
 
-    getProductsInfo() {
+    getProductsInfo(keyword) {
         let productions = [];
+        let params;
 
         if (!this.state.categorySource || !this.state.categorySource.subcategories) {
             return 
         }
+        this.setState({ loading: true, refreshing: true })
 
-        fetch('http://34.73.95.65/index.php?rt=a/product/filter&category_id=' + this.state.curCategoryId)
+        if (keyword) {
+            params = "rt=a/product/filter&keyword="+keyword+"&page="+this.state.page+"&rows=10&sidx=name&sort=ACS";
+        } else {
+            params = "rt=a/product/filter&category_id=" + this.state.curCategoryId;
+        }
+
+        fetch('http://34.73.95.65/index.php?' + params)
         .then((response) => response.json())
         .then((response) => {
             response.rows.map((item)=> {
@@ -89,11 +145,14 @@ class RegisterComponent extends Component {
                     curPrice: this.getPriceWithCurrency(item.cell.price, item.cell.currency_code),
                     prePrice: this.getPriceWithCurrency(prePrice, item.cell.currency_code),
                     discount: item.cell.rating?item.cell.rating+"% Off":null,
+                    description: item.cell.description,
                 })
             })
             const curCategory = this.state.categoryList.filter(category => category.category_id === this.state.curCategoryId);
             
             this.setState({
+                loading: false,
+                refreshing: false,
                 products: [{
                     subCategoryName: curCategory[0].name,
                     productions: productions,
@@ -101,6 +160,10 @@ class RegisterComponent extends Component {
             })
         })
         .catch((error) => {
+            this.setState({
+                loading: false,
+                refreshing: false,
+            })
             console.error(error);
         });
     }
@@ -114,6 +177,10 @@ class RegisterComponent extends Component {
     }
 
     getAllCategories() {
+        this.setState({
+            loading: true,
+            refreshing: true,
+        })
         fetch('http://34.73.95.65/index.php?rt=a/product/category&category_id=0')
             .then((response) => response.json())
             .then((response) => {
@@ -121,6 +188,8 @@ class RegisterComponent extends Component {
                 this.setState({
                     categorySource: response,
                     curCategoryId: curCategoryId,
+                    loading: false,
+                    refreshing: false,
                 });
                 this.filterCategorySource();
                 this.getProductsInfo();
@@ -137,7 +206,7 @@ class RegisterComponent extends Component {
         if (this.state && this.state.categorySource && this.state.categorySource.subcategories) {
             this.state.categorySource.subcategories.map((item) => {                
                 categoryList.push({
-                    name: this.htmlUnescape(item.name),
+                    name: transfromEscapeCharacter.esc2string(item.name),
                     picture: item.thumb,
                     category_id: item.category_id,
                 })
@@ -149,26 +218,17 @@ class RegisterComponent extends Component {
         })
     }
 
-    getProductDetails() {
-        this.props.navigation.navigate('ProductDetailsPageScreen');
+    getProductDetails(item) {
+        Reactotron.log("item-----", item)
+        this.props.navigation.push('ProductDetailsPageScreen', item);
     }
 
     openDrawerScreen() {
         this.props.navigation.toggleDrawer();
     }
 
-    htmlUnescape(text) {
-        escapeHtml.map((item)=> {
-            if (text.indexOf(item.html)) {
-                text = text.replace(item.html, item.string);
-            }
-        })
-
-        return text;
-    }
-
     render() {
-        const { search, categoryList, products } = this.state;
+        const { search, categoryList, products, refreshing, fHeight } = this.state;
 
         return (
             <View style={styles.background}>
@@ -219,15 +279,32 @@ class RegisterComponent extends Component {
                     />
                 </View>
 
-                <ScrollView style={styles.productionList}>
+                <ScrollView 
+                    style={styles.productionList}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={this.onRefresh}
+                        />
+                    }>
                     <FlatList
                         style={styles.productionList__content}
                         data={products}
                         horizontal={false}
                         keyExtractor={(item, index) => index}
                         numColumns={1}
-                        onRefresh={this.onRefresh}
-                        refreshing={this.state.refreshing}
+                        onLayout={e => {
+                            Reactotron.log("onLayout")
+                            let height = e.nativeEvent.layout.height;
+                            if (this.state.fHeight < height) {
+                                this.setState({ fHeight: height })
+                            }
+                        }}
+                        ItemSeparatorComponent={this.renderSeparator}
+                        ListFooterComponent={this.renderFooter}
+                        onEndReachedThreshold={0.4}
+                        onEndReached={this.handleLoadMore}
+                        ListEmptyComponent={this.emptyComponent}
                         renderItem={({ item, index, separators }) => (
                             <View>
                                 <View style={styles.productionList__headerBar}>
@@ -244,7 +321,7 @@ class RegisterComponent extends Component {
                                         keyExtractor={(item, index) => index}
                                         numColumns={2}
                                         renderItem={({ item, index, separators }) => (
-                                            <TouchableHighlight style={styles.productionList__content__item} onPress={() => this.getProductDetails()}>
+                                            <TouchableHighlight style={styles.productionList__content__item} onPress={() => this.getProductDetails(item)}>
                                                 <View>
                                                     <View style={styles.productionList__content__item__imageContainer}>
                                                         <Image

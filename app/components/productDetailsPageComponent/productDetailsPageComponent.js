@@ -4,12 +4,16 @@ import {
     View,
     Text,
     TouchableHighlight,
+    Image,
 } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
-import { SliderBox } from "react-native-image-slider-box";
-import FastImage from 'react-native-fast-image';
+// import { SliderBox } from "react-native-image-slider-box";
+// import FastImage from 'react-native-fast-image';
 import styles from './styles';
+import transfromEscapeCharacter from '../../reducers/transfromEscapeCharacter';
 import Reactotron from 'reactotron-react-native'
+import { ScrollView } from 'react-native-gesture-handler';
+
 
 class ProductDetailsPageComponent extends Component {
 
@@ -22,19 +26,36 @@ class ProductDetailsPageComponent extends Component {
             backIcon: require(prefixForAssets + 'backArrow-white.svg'),
             heartEmptyIcon: require(prefixForAssets + 'heart-empty.svg'),
             product: {
-                productName: 'Xiaomi Mi A3',
-                picture: require(prefixForAssets + 'xiaomiMiA3.jpg'),
-                curPrice: '$ 222',
-                prePrice: '$ 224',
-                discount: '9% Off',
-                images: [require(prefixForAssets + 'xiaomiMiA3.jpg'), require(prefixForAssets + 'xiaomiMiA3.jpg')],
+                productName: null,
+                picture: null,
+                curPrice: null,
+                prePrice: null,
+                discount: null,
+                // images: [require(prefixForAssets + 'xiaomiMiA3.jpg'), require(prefixForAssets + 'xiaomiMiA3.jpg')],
                 colorOptions: ['BLUE'],
-                description: '48+8+2MP AI triple rear camera with portrait mode, HDR, PDAF supported | 32MP front camera with f2.0, 1/2.8 inch pixel size, portrait mode, HDR supported.',
-            }
+                description: null,
+            },
         };
 
         this.addToCart = this.addToCart.bind(this);
         this.addToWishList = this.addToWishList.bind(this);
+    }
+
+    componentDidMount() {
+        Reactotron.log("props----------", this.props)
+        const { params } = this.props.route;
+        this.setState({
+            product: {
+                productName: params.productName,
+                picture: params.picture,
+                curPrice: params.curPrice,
+                prePrice: params.prePrice,
+                discount: params.discount,
+                // images: [require(prefixForAssets + 'xiaomiMiA3.jpg'), require(prefixForAssets + 'xiaomiMiA3.jpg')],
+                colorOptions: ['BLUE'],
+                description: transfromEscapeCharacter.esc2string(params.description),
+            }
+        })
     }
 
     addToCart() {
@@ -62,12 +83,17 @@ class ProductDetailsPageComponent extends Component {
                         />
                     </View>
                 </View>
-                
-                <View style={styles.productMainInfoArea}>
-                    <View>
-                        <SliderBox
+
+                <ScrollView>
+                    <View style={styles.productMainInfoArea}>
+                        <View style={styles.productMainInfoArea__imageContainer}>
+                            <Image
+                                style={styles.productMainInfoArea__image}
+                                source={{ uri: 'http:' + product.picture }}
+                            />
+                            {/* <SliderBox
                             ImageComponent={FastImage}
-                            images={product.images}
+                            images={product.picture}
                             dotColor='#158CBF'
                             onCurrentImagePressed={index =>
                                 console.warn(`image ${index} pressed`)
@@ -86,55 +112,56 @@ class ProductDetailsPageComponent extends Component {
                                 justifyContent: "center",
                                 paddingVertical: 10
                             }}
-                        />
-                    </View>
-
-                    <View style={styles.productMainInfoArea__stockStatus}>
-                        <View style={styles.productMainInfoArea__stockStatus__container}>
-                            <Text style={styles.productMainInfoArea__stockStatus__label}>Instock</Text>
+                        /> */}
                         </View>
-                    </View>
 
-                    <Text style={styles.productMainInfoArea__productName}>{product.productName}</Text>
-                    <View style={styles.productMainInfoArea__price}>
-                        <Text style={styles.productMainInfoArea__price__curPrice}>{product.curPrice}</Text>
-                        <Text style={styles.productMainInfoArea__price__prePrice}>{product.prePrice}</Text>
-                        <Text style={styles.productMainInfoArea__price__discount}>{product.discount}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.colorSelectionArea}>
-                    <Text style={styles.colorSelectionArea__title}>Select color:</Text>
-                    <View style={styles.colorSelectionArea__options}>
-                        {product.colorOptions.map(function(option) {
-                            return (
-                                <TouchableHighlight style={styles.colorSelectionArea__button}>
-                                    <Text style={styles.colorSelectionArea__button__label}>{option}</Text>
-                                </TouchableHighlight>
-                            )
-                        })}
-                    </View>
-                </View>
-                <View style={styles.descriptionArea}>
-                    <Text style={styles.colorSelectionArea__title}>Description:</Text>
-                    <Text style={styles.descriptionArea__description}>{product.description}</Text>
-                </View>
-                <View style={styles.actionButtonArea}>
-                    <TouchableHighlight style={styles.actionButtonArea__button}>
-                        <View style={styles.actionButtonArea__button__wishList}>
-                            <View style={styles.actionButtonArea__button__wishListIcon}>
-                                <SvgUri source={heartEmptyIcon} width="25" height="25"
-                                />
+                        <View style={styles.productMainInfoArea__stockStatus}>
+                            <View style={styles.productMainInfoArea__stockStatus__container}>
+                                <Text style={styles.productMainInfoArea__stockStatus__label}>Instock</Text>
                             </View>
-                            <Text style={styles.actionButtonArea__button__wishListLabel}>WishList</Text>
                         </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight style={styles.actionButtonArea__button}>
-                        <View style={styles.actionButtonArea__button__addToCart}>
-                            <Text style={styles.actionButtonArea__button__addToCartlabel}>Add To Cart</Text>
+
+                        <Text style={styles.productMainInfoArea__productName}>{product.productName}</Text>
+                        <View style={styles.productMainInfoArea__price}>
+                            <Text style={styles.productMainInfoArea__price__curPrice}>{product.curPrice}</Text>
+                            <Text style={styles.productMainInfoArea__price__prePrice}>{product.prePrice}</Text>
+                            <Text style={styles.productMainInfoArea__price__discount}>{product.discount}</Text>
                         </View>
-                    </TouchableHighlight>
-                </View>
+                    </View>
+
+                    <View style={styles.colorSelectionArea}>
+                        <Text style={styles.colorSelectionArea__title}>Select color:</Text>
+                        <View style={styles.colorSelectionArea__options}>
+                            {product.colorOptions.map(function (option) {
+                                return (
+                                    <TouchableHighlight style={styles.colorSelectionArea__button}>
+                                        <Text style={styles.colorSelectionArea__button__label}>{option}</Text>
+                                    </TouchableHighlight>
+                                )
+                            })}
+                        </View>
+                    </View>
+                    <View style={styles.descriptionArea}>
+                        <Text style={styles.colorSelectionArea__title}>Description:</Text>
+                        <Text style={styles.descriptionArea__description}>{product.description}</Text>
+                    </View>
+                    <View style={styles.actionButtonArea}>
+                        <TouchableHighlight style={styles.actionButtonArea__button}>
+                            <View style={styles.actionButtonArea__button__wishList}>
+                                <View style={styles.actionButtonArea__button__wishListIcon}>
+                                    <SvgUri source={heartEmptyIcon} width="25" height="25"
+                                    />
+                                </View>
+                                <Text style={styles.actionButtonArea__button__wishListLabel}>WishList</Text>
+                            </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.actionButtonArea__button}>
+                            <View style={styles.actionButtonArea__button__addToCart}>
+                                <Text style={styles.actionButtonArea__button__addToCartlabel}>Add To Cart</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>
+                </ScrollView>
             </View>
         );
     }
