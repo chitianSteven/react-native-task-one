@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     categoryList__item: {
         width: 90,
         paddingTop: 20,
-        paddingLeft: 10,
+        paddingLeft: 5,
+        paddingRight: 5, 
         alignItems: "center",
     },
     categoryList__item__imageContainer: {
