@@ -71,33 +71,7 @@ const styles = StyleSheet.create({
     productionList: {
         height: 520,
     },
-    productionList__headerBar: {
-        height: 40,
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    productionList__headerBar__title: {
-        color: '#2494C3',
-        fontSize: 22,
-        paddingLeft: 10,
-        paddingTop: 5,
-    },
-    productionList__headerBar__button: {
-        height: 25,
-        backgroundColor: '#158CBF',
-        marginRight: 10,
-        marginTop: 10,
-        borderRadius: 5,
-    },
-    productionList__headerBar__button__label: {
-        color: 'white',
-        fontSize: 14,
-        paddingLeft: 15,
-        paddingRight: 15,
-        lineHeight: 22,
-    },
     productionList__content: {
-        flex: 1,
     },
     productionList__content__item: {
         width: 160,
@@ -141,6 +115,31 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         color: '#158CBF',
         fontWeight: "bold",
+    },
+    productionList__headerBar: {
+        height: 40,
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    productionList__headerBar__title: {
+        color: '#2494C3',
+        fontSize: 22,
+        paddingLeft: 10,
+        paddingTop: 5,
+    },
+    productionList__headerBar__button: {
+        height: 25,
+        backgroundColor: '#158CBF',
+        marginRight: 10,
+        marginTop: 10,
+        borderRadius: 5,
+    },
+    productionList__headerBar__button__label: {
+        color: 'white',
+        fontSize: 14,
+        paddingLeft: 15,
+        paddingRight: 15,
+        lineHeight: 22,
     },
 });
 
