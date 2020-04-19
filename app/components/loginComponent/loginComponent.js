@@ -7,6 +7,7 @@ import {
     TextInput,
     Animated,
     AsyncStorage,
+    Vibration,
 } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 // import AsyncStorage from '@react-native-community/async-storage';
@@ -39,36 +40,11 @@ class LoginComponent extends Component {
         this.signIn = this.signIn.bind(this);
         this.storeData = this.storeData.bind(this);
         this.getData = this.getData.bind(this);
-        this.checkNetworkConnection = this.checkNetworkConnection.bind(this);
 
         NetInfo.addEventListener((connectionInfo) => {
-            // Reactotron.log(
-            //   'First change, type: ' +
-            //     connectionInfo.type +
-            //     ', effectiveType: ' +
-            //     connectionInfo.effectiveType,
-            // );
             this.storeData('connectionInfo', connectionInfo);
             this.storeData('userName', this.state.emailAddress);
             this.storeData('loginState', 'sucess');
-        });
-
-        // Reactotron.log('NetInfo', NetInfo)
-        // setTimeout(()=>{this.checkNetworkConnection()});
-    }
-
-    checkNetworkConnection() {
-        NetInfo.fetch().then(isConnected => {
-            Reactotron.log('checkNetworkConnection', isConnected);
-            Reactotron.log('setState', this.state);
-            if (!isConnected) {
-                this.setState({ 
-                    dialogTitle: 'Network issue',
-                    dialogMessage: 'Please check your network connection.',
-                    showInfoDialog: true 
-                });
-            }
-            setTimeout(() => {Reactotron.log('after setState', this.state)}, 1000);
         });
     }
 
@@ -123,6 +99,7 @@ class LoginComponent extends Component {
                     dialogMessage: 'Please check your network connection.',
                     showInfoDialog: true
                 });
+                Vibration.vibrate()
             } else {
                 fetch('http://34.73.95.65/index.php?rt=a/account/login', obj)
                     .then((response) => response.json())
@@ -141,7 +118,7 @@ class LoginComponent extends Component {
                                     dialogMessage: 'Please check your email address and password.',
                                     showInfoDialog: true
                                 });
-
+                                Vibration.vibrate();
                                 Animated.timing(
                                     this.state.fadeAnim,
                                     {
