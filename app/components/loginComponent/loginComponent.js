@@ -36,6 +36,8 @@ class LoginComponent extends Component {
             fadeAnim: new Animated.Value(1),
         };
 
+        this.shakeAnimation = new Animated.Value(0);
+
         this.inputEmailAddress = this.inputEmailAddress.bind(this);
         this.signIn = this.signIn.bind(this);
         this.storeData = this.storeData.bind(this);
@@ -47,6 +49,23 @@ class LoginComponent extends Component {
             this.storeData('loginState', 'sucess');
         });
     }
+
+    startShake = () => {
+        Animated.sequence([
+          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+          Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true })
+        ]).start();
+     }
 
     inputEmailAddress(text) {
         this.setState({
@@ -121,6 +140,7 @@ class LoginComponent extends Component {
                                     showInfoDialog: true
                                 });
                                 Vibration.vibrate();
+                                this.startShake();
                                 Animated.timing(
                                     this.state.fadeAnim,
                                     {
@@ -171,7 +191,7 @@ class LoginComponent extends Component {
                         <View style={styles.signInArea__forgotPassword}>
                             <Text style={styles.link}>Forgot Password?</Text>
                         </View>
-                        <Animatable.View style={styles.signInArea__signIn} style={{opacity: fadeAnim}}>
+                        <Animatable.View style={{ transform: [{translateX: this.shakeAnimation}] }}>
                             <Button
                                 style={styles.signInArea__signIn__Button}
                                 onPress={() => this.signIn()}
