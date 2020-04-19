@@ -5,7 +5,11 @@ import {
     Button,
     Text,
     TextInput,
+    Animated,
+    AsyncStorage,
 } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
+// import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 import Dialog, {
@@ -15,6 +19,7 @@ import Dialog, {
     DialogButton,
     SlideAnimation,
 } from 'react-native-popup-dialog';
+import * as Animatable from 'react-native-animatable';
 import Reactotron from 'reactotron-react-native';
 
 class LoginComponent extends Component {
@@ -22,13 +27,49 @@ class LoginComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            dialogTitle: '',
+            dialogMessage: '',
             emailAddress: '',
             password: '',
             showInfoDialog: false,
+            fadeAnim: new Animated.Value(1),
         };
 
         this.inputEmailAddress = this.inputEmailAddress.bind(this);
         this.signIn = this.signIn.bind(this);
+        this.storeData = this.storeData.bind(this);
+        this.getData = this.getData.bind(this);
+        this.checkNetworkConnection = this.checkNetworkConnection.bind(this);
+
+        NetInfo.addEventListener((connectionInfo) => {
+            // Reactotron.log(
+            //   'First change, type: ' +
+            //     connectionInfo.type +
+            //     ', effectiveType: ' +
+            //     connectionInfo.effectiveType,
+            // );
+            this.storeData('connectionInfo', connectionInfo);
+            this.storeData('userName', this.state.emailAddress);
+            this.storeData('loginState', 'sucess');
+        });
+
+        // Reactotron.log('NetInfo', NetInfo)
+        // setTimeout(()=>{this.checkNetworkConnection()});
+    }
+
+    checkNetworkConnection() {
+        NetInfo.fetch().then(isConnected => {
+            Reactotron.log('checkNetworkConnection', isConnected);
+            Reactotron.log('setState', this.state);
+            if (!isConnected) {
+                this.setState({ 
+                    dialogTitle: 'Network issue',
+                    dialogMessage: 'Please check your network connection.',
+                    showInfoDialog: true 
+                });
+            }
+            setTimeout(() => {Reactotron.log('after setState', this.state)}, 1000);
+        });
     }
 
     inputEmailAddress(text) {
@@ -46,6 +87,25 @@ class LoginComponent extends Component {
     signIn() {
         this.getUserInfo();
     }
+    
+    storeData(key, value) {
+        try {
+            AsyncStorage.setItem(key, value)
+        } catch (e) {
+            // saving error
+        }
+    }
+
+    getData(key) {
+        try {
+            const value = AsyncStorage.getItem(key)
+            if (value !== null) {
+                return value;
+            }
+        } catch (e) {
+            // error reading value
+        }
+    }
 
     getUserInfo() {
         let formdata = new FormData();
@@ -55,27 +115,54 @@ class LoginComponent extends Component {
             method: 'POST',
             body: formdata
         }
-        fetch('http://34.73.95.65/index.php?rt=a/account/login', obj)
-            .then((response) => response.json())
-            .then((response) => {
+
+        NetInfo.fetch().then(connection => {
+            if (!connection.isConnected) {
                 this.setState({
-                    isLoading: false,
-                    dataSource: response,
-                }, function () {
-                    if (response.status == 1 && response.success) {
-                        this.props.navigation.navigate('MainPageScreen');
-                    } else {
-                        this.setState({ showInfoDialog: true });
-                    }
+                    dialogTitle: 'Network issue',
+                    dialogMessage: 'Please check your network connection.',
+                    showInfoDialog: true
                 });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+            } else {
+                fetch('http://34.73.95.65/index.php?rt=a/account/login', obj)
+                    .then((response) => response.json())
+                    .then((response) => {
+                        this.setState({
+                            isLoading: false,
+                            dataSource: response,
+                        }, function () {
+                            if (response.status == 1 && response.success) {
+                                Reactotron.log('NetInfo', NetInfo);
+                                this.props.navigation.navigate('MainPageScreen');
+                            } else {
+                                this.storeData('loginState', 'fail');
+                                this.setState({
+                                    dialogTitle: 'Login Failed',
+                                    dialogMessage: 'Please check your email address and password.',
+                                    showInfoDialog: true
+                                });
+
+                                Animated.timing(
+                                    this.state.fadeAnim,
+                                    {
+                                        toValue: 0,
+                                        duration: 3000,
+                                    }
+                                );
+                            }
+                        });
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+
+            }
+        });
+
     }
 
     render() {
-        const { emailAddress, password, showInfoDialog } = this.state;
+        const { emailAddress, password, showInfoDialog, fadeAnim, dialogMessage, dialogTitle } = this.state;
 
         return (
             <View style={styles.background}>
@@ -105,14 +192,14 @@ class LoginComponent extends Component {
                         <View style={styles.signInArea__forgotPassword}>
                             <Text style={styles.link}>Forgot Password?</Text>
                         </View>
-                        <View style={styles.signInArea__signIn}>
+                        <Animatable.View style={styles.signInArea__signIn} style={{opacity: fadeAnim}}>
                             <Button
                                 style={styles.signInArea__signIn__Button}
                                 onPress={() => this.signIn()}
                                 title='SIGN IN'
                                 color='#158CBF'
                             />
-                        </View>
+                        </Animatable.View>
                         <View style={styles.signInArea__signUp}>
                             <Text
                                 style={styles.link}
@@ -135,7 +222,7 @@ class LoginComponent extends Component {
                         dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
                         dialogTitle={
                             <DialogTitle
-                                title="Login Failed"
+                                title={dialogTitle}
                                 textStyle={{
                                     fontSize: 17,
                                 }}
@@ -164,7 +251,7 @@ class LoginComponent extends Component {
                                 backgroundColor: '#ffffff',
                                 justifyContent: 'center', alignItems: 'center',
                             }}>
-                            <Text>Please check your email address and password.</Text>
+                            <Text>{dialogMessage}</Text>
                         </DialogContent>
                     </Dialog>
                 </LinearGradient>

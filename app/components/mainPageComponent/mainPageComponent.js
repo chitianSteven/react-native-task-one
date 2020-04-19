@@ -10,6 +10,13 @@ import {
     RefreshControl,
     ActivityIndicator,
 } from 'react-native';
+import Dialog, {
+    DialogTitle,
+    DialogContent,
+    DialogFooter,
+    DialogButton,
+    SlideAnimation,
+} from 'react-native-popup-dialog';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
 import transfromEscapeCharacter from '../../reducers/transfromEscapeCharacter';
@@ -21,6 +28,7 @@ class RegisterComponent extends Component {
         super(props);
         const prefixForAssets = '../../assets/';
         this.state = {
+            showInfoDialog: false,
             fHeight : 0,
             page: 1,
             categorySource: {},
@@ -130,7 +138,6 @@ class RegisterComponent extends Component {
         fetch('http://34.73.95.65/index.php?' + params)
         .then((response) => response.json())
         .then((response) => {
-
             if (response.rows) {
                 response.rows.map((item)=> {
                     let prePrice = '';
@@ -155,6 +162,10 @@ class RegisterComponent extends Component {
                         subCategoryName: curCategory[0].name,
                         productions: productions,
                     }]
+                })
+            } else {
+                this.setState({
+                    showInfoDialog: true
                 })
             }
         })
@@ -226,7 +237,7 @@ class RegisterComponent extends Component {
     }
 
     render() {
-        const { search, categoryList, products, refreshing, fHeight } = this.state;
+        const { search, categoryList, products, refreshing, showInfoDialog } = this.state;
 
         return (
             <View style={styles.background}>
@@ -339,6 +350,50 @@ class RegisterComponent extends Component {
                         )}
                     />
                 </View>
+
+                <Dialog
+                        onDismiss={() => {
+                            this.setState({ showInfoDialog: false });
+                        }}
+                        width={0.85}
+                        visible={showInfoDialog}
+                        rounded
+                        actionsBordered
+                        dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
+                        dialogTitle={
+                            <DialogTitle
+                                title="Sorry"
+                                textStyle={{
+                                    fontSize: 17,
+                                }}
+                                style={{
+                                    backgroundColor: '#ffffff',
+                                }}
+                                hasTitleBar={false}
+                                align="center" />
+                        }
+                        footer={
+                            <DialogFooter>
+                                <DialogButton
+                                    text="Ok"
+                                    textStyle={{
+                                        fontSize: 15,
+                                    }}
+                                    bordered
+                                    onPress={() => {
+                                        this.setState({ showInfoDialog: false });
+                                    }}
+                                    key="button-2" />
+                            </DialogFooter>
+                        }>
+                        <DialogContent
+                            style={{
+                                backgroundColor: '#ffffff',
+                                justifyContent: 'center', alignItems: 'center',
+                            }}>
+                            <Text>Could not find the match productions.</Text>
+                        </DialogContent>
+                    </Dialog>
             </View>
         );
     }
