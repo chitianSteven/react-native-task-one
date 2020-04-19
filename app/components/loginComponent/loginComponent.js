@@ -69,6 +69,7 @@ class LoginComponent extends Component {
             AsyncStorage.setItem(key, value)
         } catch (e) {
             // saving error
+            Reactotron.log('storeData error', e);
         }
     }
 
@@ -80,6 +81,7 @@ class LoginComponent extends Component {
             }
         } catch (e) {
             // error reading value
+            Reactotron.log('getData error', e);
         }
     }
 
