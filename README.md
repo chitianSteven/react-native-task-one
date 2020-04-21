@@ -1,5 +1,9 @@
 # react-native-task-one
 
+The app is just a tutorial task for studying react native. It may has many issues uncovered.
+
+Setup App:
+
 1. Please follow the instruction from react native offical website to setup the enviroment:
     https://reactnative.dev/docs/environment-setup
     
