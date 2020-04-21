@@ -66,6 +66,7 @@ class RegisterComponent extends Component {
     }
 
     onRefresh() {
+        Reactotron.log("onRefresh");
         this.setState({
             refreshing: true,
         },  () => {
@@ -294,19 +295,19 @@ class RegisterComponent extends Component {
                 </View>
 
                 <View 
-                    style={styles.productionList}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={this.onRefresh}
-                        />
-                    }>
+                    style={styles.productionList}>
                     <FlatList
                         style={styles.productionList__content}
                         data={products}
                         horizontal={false}
                         keyExtractor={(item, index) => index}
                         numColumns={1}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={this.onRefresh}
+                            />
+                        }
                         ListFooterComponent={this.renderFooter}
                         onEndReachedThreshold={0.01}
                         onEndReached={this.handleLoadMore}
