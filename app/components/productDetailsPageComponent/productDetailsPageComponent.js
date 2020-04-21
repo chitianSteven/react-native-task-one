@@ -6,6 +6,13 @@ import {
     TouchableHighlight,
     Image,
 } from 'react-native';
+import Dialog, {
+    DialogTitle,
+    DialogContent,
+    DialogFooter,
+    DialogButton,
+    SlideAnimation,
+} from 'react-native-popup-dialog';
 import SvgUri from 'react-native-svg-uri';
 // import { SliderBox } from "react-native-image-slider-box";
 // import FastImage from 'react-native-fast-image';
@@ -26,6 +33,9 @@ class ProductDetailsPageComponent extends Component {
             backIcon: require(prefixForAssets + 'backArrow-white.svg'),
             heartEmptyIcon: require(prefixForAssets + 'heart-empty.svg'),
             product: {
+                dialogTitle: '',
+                dialogMessage: '',
+                showInfoDialog: false,
                 productName: null,
                 picture: null,
                 curPrice: null,
@@ -42,7 +52,6 @@ class ProductDetailsPageComponent extends Component {
     }
 
     componentDidMount() {
-        Reactotron.log("props----------", this.props)
         const { params } = this.props.route;
         this.setState({
             product: {
@@ -59,15 +68,23 @@ class ProductDetailsPageComponent extends Component {
     }
 
     addToCart() {
-
+        this.setState({
+            dialogTitle: 'Added to cart',
+            dialogMessage: 'Please check your cart for newly added item.',
+            showInfoDialog: true
+        });
     }
 
     addToWishList() {
-
+        this.setState({
+            dialogTitle: 'Added to wish list',
+            dialogMessage: 'Please check your wish list for newly added item.',
+            showInfoDialog: true
+        });
     }
 
     render() {
-        const { searchIcon, cartWhiteIcon, backIcon, heartEmptyIcon, product } = this.state;
+        const { searchIcon, cartWhiteIcon, backIcon, heartEmptyIcon, product, showInfoDialog, dialogMessage, dialogTitle } = this.state;
 
         return (
             <View style={styles.background}>
@@ -146,7 +163,7 @@ class ProductDetailsPageComponent extends Component {
                         <Text style={styles.descriptionArea__description}>{product.description}</Text>
                     </View>
                     <View style={styles.actionButtonArea}>
-                        <TouchableHighlight style={styles.actionButtonArea__button}>
+                        <TouchableHighlight style={styles.actionButtonArea__button} onPress={() => this.addToWishList()}>
                             <View style={styles.actionButtonArea__button__wishList}>
                                 <View style={styles.actionButtonArea__button__wishListIcon}>
                                     <SvgUri source={heartEmptyIcon} width="25" height="25"
@@ -155,13 +172,57 @@ class ProductDetailsPageComponent extends Component {
                                 <Text style={styles.actionButtonArea__button__wishListLabel}>WishList</Text>
                             </View>
                         </TouchableHighlight>
-                        <TouchableHighlight style={styles.actionButtonArea__button}>
+                        <TouchableHighlight style={styles.actionButtonArea__button} onPress={() => this.addToCart()}>
                             <View style={styles.actionButtonArea__button__addToCart}>
                                 <Text style={styles.actionButtonArea__button__addToCartlabel}>Add To Cart</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
                 </ScrollView>
+
+                <Dialog
+                        onDismiss={() => {
+                            this.setState({ showInfoDialog: false });
+                        }}
+                        width={0.85}
+                        visible={showInfoDialog}
+                        rounded
+                        actionsBordered
+                        dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
+                        dialogTitle={
+                            <DialogTitle
+                                title={dialogTitle}
+                                textStyle={{
+                                    fontSize: 17,
+                                }}
+                                style={{
+                                    backgroundColor: '#ffffff',
+                                }}
+                                hasTitleBar={false}
+                                align="center" />
+                        }
+                        footer={
+                            <DialogFooter>
+                                <DialogButton
+                                    text="Ok"
+                                    textStyle={{
+                                        fontSize: 15,
+                                    }}
+                                    bordered
+                                    onPress={() => {
+                                        this.setState({ showInfoDialog: false });
+                                    }}
+                                    key="button-2" />
+                            </DialogFooter>
+                        }>
+                        <DialogContent
+                            style={{
+                                backgroundColor: '#ffffff',
+                                justifyContent: 'center', alignItems: 'center',
+                            }}>
+                            <Text>{dialogMessage}</Text>
+                        </DialogContent>
+                    </Dialog>
             </View>
         );
     }
