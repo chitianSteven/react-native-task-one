@@ -18,6 +18,7 @@ import RegisterComponent from './components/registerComponent/registerComponent'
 import MainPageComponent from './components/mainPageComponent/mainPageComponent'
 import ProductDetailsPageComponent from './components/productDetailsPageComponent/productDetailsPageComponent'
 import DrawerComponent from './components/drawerComponent/drawerComponent'
+import OrderListPageComponent from './components/orderListPageComponent/orderListPageComponent'
 
 function DrawerScreen({ navigation }) {
   return (
@@ -39,6 +40,9 @@ const pages = [
   }, {
     'name':'ProductDetailsPageScreen', 
     'component': ProductDetailsPageComponent
+  }, {
+    'name':'OrderListPageScreen', 
+    'component': OrderListPageComponent
   }]
 
 const MainStackScreen = () => (

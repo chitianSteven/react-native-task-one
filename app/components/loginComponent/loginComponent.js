@@ -51,21 +51,22 @@ class LoginComponent extends Component {
     }
 
     startShake = () => {
+
         Animated.sequence([
-          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
-          Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true })
+            Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: -10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(this.shakeAnimation, { toValue: 0, duration: 100, useNativeDriver: true }),
         ]).start();
-     }
+    }
 
     inputEmailAddress(text) {
         this.setState({
@@ -141,13 +142,6 @@ class LoginComponent extends Component {
                                 });
                                 Vibration.vibrate();
                                 this.startShake();
-                                Animated.timing(
-                                    this.state.fadeAnim,
-                                    {
-                                        toValue: 0,
-                                        duration: 3000,
-                                    }
-                                );
                             }
                         });
                     })

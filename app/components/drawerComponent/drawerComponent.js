@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class DrawerComponent extends Component {
 
@@ -46,8 +47,9 @@ class DrawerComponent extends Component {
                     </TouchableHighlight>
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <SvgUri source={heartIcon} width="25" height="25"
-                            />
+                            {/* <SvgUri source={heartIcon} width="25" height="25"
+                            /> */}
+                            <Icon name="heart" size={25} color="#3497c9" />
                             <Text style={styles.section__item__label}>My Wish List</Text>
                         </View>
                     </TouchableHighlight>
@@ -58,7 +60,8 @@ class DrawerComponent extends Component {
                             <Text style={styles.section__item__label}>My Cart</Text>
                         </View>
                     </TouchableHighlight>
-                    <TouchableHighlight>
+                    <TouchableHighlight 
+                         onPress={()=>{this.props.navigation.navigate('OrderListPageScreen');}}>
                         <View style={styles.section__item}>
                             <SvgUri source={cartTickIcon} width="25" height="25"
                             />
