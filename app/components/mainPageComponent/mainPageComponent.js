@@ -245,11 +245,13 @@ class RegisterComponent extends Component {
                 <View style={styles.headerBar}>
                     <TouchableHighlight onPress={() => this.openDrawerScreen()}>
                         <SvgUri source={this.state.menuIcon} width="30" height="30"
-                    />
+                        />
                     </TouchableHighlight>
                     <Text style={styles.headerBar__title}>Ecommerce Store</Text>
-                    <SvgUri source={this.state.cartWhiteIcon} width="30" height="30"
-                    />
+                    <TouchableHighlight onPress={() => this.props.navigation.navigate('MyCartPageScreen')}>
+                        <SvgUri source={this.state.cartWhiteIcon} width="30" height="30"
+                        />
+                    </TouchableHighlight>
                 </View>
                 
                 <View style={styles.searchBoxArea}>

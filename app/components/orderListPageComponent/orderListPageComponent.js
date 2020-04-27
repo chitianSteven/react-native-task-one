@@ -58,7 +58,7 @@ class OrderListPageComponent extends Component {
                         />
                     </View>
                     <Text style={styles.headerBar__title}>My Orders</Text>
-                    <View>
+                    <View onStartShouldSetResponder={() => this.props.navigation.navigate('MyCartPageScreen')}>
                         <SvgUri source={cartWhiteIcon} width="30" height="30"
                         />
                     </View>
