@@ -11,4 +11,6 @@ Setup App:
 
 3. Run "yarn android" to run the app
 
+Please use the user name and password that you registered in the website to log in.
+
 Notice: the current version is mainly focus on android device development.
