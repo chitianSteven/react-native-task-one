@@ -42,9 +42,22 @@ class MyCartPageComponent extends Component {
                 },
                 color: "BLUE",
                 quantity: 1,
+                deliveryFee: 1,
             }],
             tax: 2,
         }
+
+        this.getDashLine = this.getDashLine.bind(this);
+    }
+
+    getDashLine(value) {
+        var dots = [];
+        for (var i = 0; i < value; i++) {
+            dots.push(
+                <View style={styles.dot}></View>
+            );
+        }
+    return (<View style={styles.dotsLine}>{dots}</View>);
     }
 
     render() {
@@ -64,36 +77,77 @@ class MyCartPageComponent extends Component {
                     </View>
                 </View>
                 <View style={styles.contentSection}>
-                    <View style={styles.contentSection__container}>
+                    <View>
                         <FlatList
                             data={productionList}
                             keyExtractor={(item, index) => index}
                             renderItem={({ item, index, separators }) => (
-                                <View style={styles.contentSection__container__item}>
-                                    <View style={styles.contentSection__container__item__details}>
-                                        <View>
-                                            <Text>{item.name}</Text>
-                                            <View>
-                                                <Text>{item.price.curPrice}</Text>
-                                                <Text>{item.price.prePrice}</Text>
-                                                <Text>{item.price.discount}</Text>
+                                <View>
+                                    <View style={styles.contentSection__container}>
+                                        <View style={styles.contentSection__container__item__details}>
+                                            <View style={styles.contentSection__container__item__details__list}>
+                                                <Text>{item.name}</Text>
+                                                <View style={styles.contentSection__container__item__details__list__price}>
+                                                    <Text style={styles.text}>{item.price.curency} {item.price.curPrice}</Text>
+                                                    <Text style={styles.text_lineThrough}>{item.price.curency} {item.price.prePrice}</Text>
+                                                    <Text style={styles.text_colorBlue}>{item.price.discount}</Text>
+                                                </View>
+                                                <Text style={styles.text}>Color: {item.color}</Text>
                                             </View>
-                                            <Text>Color: {item.color}</Text>
+                                            <View>
+                                                <Image
+                                                    source={item.image}
+                                                    style={{ width: 80, height: 80 }}
+                                                />
+                                            </View>
                                         </View>
-                                        <View>
-                                            <Image
-                                                source={item.image}
-                                            />
+                                        <View style={styles.contentSection__container__item__details}>
+                                            <View style={styles.contentSection__container__item__details_border}>
+                                                <Text style={styles.text_big}>Qty: {item.quantity}</Text>
+                                            </View>
+                                            <TouchableHighlight>
+                                                <SvgUri source={recycleBinIcon} width="30" height="30"
+                                                />
+                                            </TouchableHighlight>
                                         </View>
                                     </View>
-                                    <View>
-                                        <View>
-                                            <Text>Qty: {item.quantity}</Text>
+                                    
+                                    
+                                    <View style={styles.contentSection__container}>
+                                        <View style={styles.contentSection__container__title}>
+                                            <Text style={styles.text_title}>PRICE DETAILS</Text>
                                         </View>
-                                        <TouchableHighlight>
-                                            <SvgUri source={recycleBinIcon} width="30" height="30"
-                                            />
-                                        </TouchableHighlight>
+                                        <View style={styles.contentSection__container__detailsList}>
+                                            <View style={styles.contentSection__container__detailsList__item}>
+                                                <Text>Price ({item.quantity} items)</Text>
+                                                <Text>{item.price.curency} {item.price.curPrice}</Text>
+                                            </View>
+                                            <View style={styles.contentSection__container__detailsList__item}>
+                                                <Text>Delivery</Text>
+                                                <Text>{item.price.curency} {item.deliveryFee}</Text>
+                                            </View>
+                                            <View style={styles.contentSection__container__detailsList__item}>
+                                                <Text>Tax ({tax}%)</Text>
+                                                <Text>{item.price.curency} {item.price.curPrice * tax / 100}</Text>
+                                            </View>
+                                        </View>
+
+                                        {this.getDashLine(70)}
+
+                                        <View style={styles.contentSection__container__total}>
+                                            <Text>Amount Payable</Text>
+                                            <Text>{item.price.curency} {item.price.curPrice * (1 + tax / 100) + item.deliveryFee}</Text>
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.footerSection}>
+                                        <View style={styles.footerSection__content}>
+                                            <Icon name="shield" size={40} color="#3497c9" />
+                                            <View style={styles.footerSection__content__text}>
+                                                <Text>Safe and Secure Payments.</Text>
+                                                <Text>100% Authentic products</Text>
+                                            </View>
+                                        </View>
                                     </View>
                                 </View>
                             )}
