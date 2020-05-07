@@ -19,6 +19,7 @@ import MainPageComponent from './components/mainPageComponent/mainPageComponent'
 import ProductDetailsPageComponent from './components/productDetailsPageComponent/productDetailsPageComponent'
 import DrawerComponent from './components/drawerComponent/drawerComponent'
 import OrderListPageComponent from './components/orderListPageComponent/orderListPageComponent'
+import OrderDetailsPageComponent from './components/orderDetailsPageComponent/orderDetailsPageComponent'
 import MyCartPageComponent from './components/myCartPageComponent/myCartPageComponent'
 
 function DrawerScreen({ navigation }) {
@@ -44,6 +45,9 @@ const pages = [
   }, {
     'name':'OrderListPageScreen', 
     'component': OrderListPageComponent
+  }, {
+    'name':'OrderDetailsPageScreen', 
+    'component': OrderDetailsPageComponent
   }, {
     'name':'MyCartPageScreen', 
     'component': MyCartPageComponent

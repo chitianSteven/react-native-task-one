@@ -21,7 +21,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-class OrderListPageComponent extends Component {
+class OrderDetailsPageComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -57,7 +57,7 @@ class OrderListPageComponent extends Component {
                         <SvgUri source={backIcon} width="30" height="30"
                         />
                     </View>
-                    <Text style={styles.headerBar__title}>My Orders</Text>
+                    <Text style={styles.headerBar__title}></Text>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MyCartPageScreen')}>
                         <SvgUri source={cartWhiteIcon} width="30" height="30"
                         />
@@ -65,29 +65,59 @@ class OrderListPageComponent extends Component {
                 </View>
                 <View style={styles.contentSection}>
                     <View style={styles.contentSection__container}>
+                        <View>
+                            <Text>Order Id:</Text>
+                            <Text>0D3489488519356</Text>
+                        </View>
+                        <View>
+                            <Text>Order Date:</Text>
+                            <Text>30/11/2019 10:10:34</Text>
+                        </View>
+                        <View>
+                            <Text>Total Amount:</Text>
+                            <Text>$ 380.44</Text>
+                        </View>
+                        <View>
+                            <Text>Payment Mode:</Text>
+                            <Text>COD</Text>
+                        </View>
+                        <View>
+                            <Text>Shipping Address:</Text>
+                            <TouchableHighlight>
+                                <Text>test test, 12, no, Lenin street, karaganda, no, 1234, 838383838383283</Text>
+                            </TouchableHighlight>
+                        </View>
+                        <View>
+                            <Text>Status:</Text>
+                            <TouchableHighlight>
+                                <Text>In-Processing</Text>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                    <View style={styles.contentSection__container}>
+                        <Text>Ordered Products:</Text>
                         <FlatList
                             data={orderList}
                             keyExtractor={(item, index) => index}
                             renderItem={({ item, index, separators }) => (
                                 <TouchableHighlight>
                                     <View style={styles.contentSection__container__item}>
-                                        <Text style={styles.contentSection__container__item__name}>{item.name}</Text>
-                                        <Image
-                                            style={styles.contentSection__container__item__image}
-                                            source={item.image}
-                                        />
+                                        <View>
+                                            <Text style={styles.contentSection__container__item__name}>{item.name}</Text>
+                                            <Text>Price:</Text>
+                                            <Text>Color:</Text>
+                                        </View>
+                                        <View>
+                                            <Image
+                                                style={styles.contentSection__container__item__image}
+                                                source={item.image}
+                                            />
+                                            <Text>Qty: 1</Text>
+                                        </View>
                                     </View>
                                 </TouchableHighlight>
                             )}
                         />
-                        <View style={styles.contentSection__container__bottom}>
-                            <TouchableHighlight>
-                                <View onStartShouldSetResponder={() => this.props.navigation.navigate('OrderDetailsPageScreen')}>
-                                    <Text style={styles.contentSection__container__viewOrderDetails}>View Order Details</Text>
-                                </View>
-                            </TouchableHighlight>
-                            <Text style={styles.contentSection__container__date}>Date: {timeStamp.date} {timeStamp.time}</Text>
-                        </View>
                     </View>
                 </View>
             </View>
@@ -95,4 +125,4 @@ class OrderListPageComponent extends Component {
     }
 }
 
-export default OrderListPageComponent;
+export default OrderDetailsPageComponent;
