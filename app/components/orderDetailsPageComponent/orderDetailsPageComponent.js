@@ -6,19 +6,8 @@ import {
     TouchableHighlight,
     Image,
 } from 'react-native';
-import Dialog, {
-    DialogTitle,
-    DialogContent,
-    DialogFooter,
-    DialogButton,
-    SlideAnimation,
-} from 'react-native-popup-dialog';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
-import transfromEscapeCharacter from '../../reducers/transfromEscapeCharacter';
-import Reactotron from 'reactotron-react-native'
-import { ScrollView } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 class OrderDetailsPageComponent extends Component {
@@ -34,10 +23,18 @@ class OrderDetailsPageComponent extends Component {
                 {
                     name: 'OPPO K3',
                     image: require(prefixForAssets + 'oppoK3.jpg'),
+                    price: 150,
+                    color: 'BLUE',
+                    curency: '$',
+                    quantity: 1,
                 },
                 {
                     name: 'Xiaomi Mi A3',
                     image: require(prefixForAssets + 'xiaomiMiA3.jpg'),
+                    price: 222,
+                    color: 'BLUE',
+                    curency: '$',
+                    quantity: 1,
                 }
             ],
             timeStamp: {
@@ -65,37 +62,63 @@ class OrderDetailsPageComponent extends Component {
                 </View>
                 <View style={styles.contentSection}>
                     <View style={styles.contentSection__container}>
-                        <View>
-                            <Text>Order Id:</Text>
-                            <Text>0D3489488519356</Text>
+                        <View style={styles.contentSection__container__row}>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__label}>Order Id:</Text>
+                            </View>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__value}>0D3489488519356</Text>
+                            </View>
                         </View>
-                        <View>
-                            <Text>Order Date:</Text>
-                            <Text>30/11/2019 10:10:34</Text>
+                        <View style={styles.contentSection__container__row}>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__label}>Order Date:</Text>
+                            </View>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__value}>30/11/2019 10:10:34</Text>
+                            </View>
                         </View>
-                        <View>
-                            <Text>Total Amount:</Text>
-                            <Text>$ 380.44</Text>
+                        <View style={styles.contentSection__container__row}>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__label}>Total Amount:</Text>
+                            </View>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__value}>$ 380.44</Text>
+                            </View>
                         </View>
-                        <View>
-                            <Text>Payment Mode:</Text>
-                            <Text>COD</Text>
+                        <View style={styles.contentSection__container__row}>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__label}>Payment Mode:</Text>
+                            </View>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__value}>COD</Text>
+                            </View>
                         </View>
-                        <View>
-                            <Text>Shipping Address:</Text>
-                            <TouchableHighlight>
-                                <Text>test test, 12, no, Lenin street, karaganda, no, 1234, 838383838383283</Text>
-                            </TouchableHighlight>
+                        <View style={styles.contentSection__container__row}>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__label}>Shipping Address:</Text>
+                            </View>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <TouchableHighlight onPress={() => this.props.navigation.navigate('MapViewPageScreen')}>
+                                    <Text style={styles.text__value}>test test, 12, no, Lenin street, karaganda, no, 1234, 838383838383283</Text>
+                                </TouchableHighlight>
+                            </View>
                         </View>
-                        <View>
-                            <Text>Status:</Text>
-                            <TouchableHighlight>
-                                <Text>In-Processing</Text>
-                            </TouchableHighlight>
+                        <View style={styles.contentSection__container__row}>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <Text style={styles.text__label}>Status:</Text>
+                            </View>
+                            <View style={styles.contentSection__container__row__cell}>
+                                <TouchableHighlight>
+                                    <Text style={styles.text__value__green}>In-Processing</Text>
+                                </TouchableHighlight>
+                            </View>
                         </View>
                     </View>
                     <View style={styles.contentSection__container}>
-                        <Text>Ordered Products:</Text>
+                        <View style={styles.contentSection__container__title}>
+                            <Text style={styles.text__title}>Ordered Products:</Text>
+                        </View>
                         <FlatList
                             data={orderList}
                             keyExtractor={(item, index) => index}
@@ -104,15 +127,15 @@ class OrderDetailsPageComponent extends Component {
                                     <View style={styles.contentSection__container__item}>
                                         <View>
                                             <Text style={styles.contentSection__container__item__name}>{item.name}</Text>
-                                            <Text>Price:</Text>
-                                            <Text>Color:</Text>
+                                            <Text style={styles.contentSection__container__item__details}>Price: {item.curency} {item.price}</Text>
+                                            <Text style={styles.contentSection__container__item__details}>Color: {item.color}</Text>
                                         </View>
                                         <View>
                                             <Image
                                                 style={styles.contentSection__container__item__image}
                                                 source={item.image}
                                             />
-                                            <Text>Qty: 1</Text>
+                                            <Text style={styles.contentSection__container__item__details}>Qty: {item.quantity}</Text>
                                         </View>
                                     </View>
                                 </TouchableHighlight>

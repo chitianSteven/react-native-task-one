@@ -21,6 +21,7 @@ import DrawerComponent from './components/drawerComponent/drawerComponent'
 import OrderListPageComponent from './components/orderListPageComponent/orderListPageComponent'
 import OrderDetailsPageComponent from './components/orderDetailsPageComponent/orderDetailsPageComponent'
 import MyCartPageComponent from './components/myCartPageComponent/myCartPageComponent'
+import MapViewPageComponent from './components/mapViewPageComponent/mapViewPageComponent'
 
 function DrawerScreen({ navigation }) {
   return (
@@ -51,6 +52,9 @@ const pages = [
   }, {
     'name':'MyCartPageScreen', 
     'component': MyCartPageComponent
+  }, {
+    'name':'MapViewPageScreen', 
+    'component': MapViewPageComponent
   }]
 
 const MainStackScreen = () => (

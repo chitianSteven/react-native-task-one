@@ -23,42 +23,60 @@ const styles = StyleSheet.create({
     },
     contentSection: {
         paddingTop: 15,
-        paddingLeft: 10,
-        paddingRight: 10,
     },
     contentSection__container: {
-        padding: 10,
+        paddingBottom: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
         borderColor: '#E7E7E7',
-        borderRadius: 5,
-        borderWidth: 2,
+        borderBottomWidth: 10,
     },
     contentSection__container__item: {
         flexDirection: "row",
         justifyContent: "space-between", 
-        borderBottomColor: "black",
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
         marginBottom: 10,
         paddingBottom: 10,
     },
     contentSection__container__item__name: {
-        lineHeight: 70,
+        lineHeight: 30,
+        marginLeft: 10,
+    },
+    contentSection__container__item__details: {
+        fontWeight: "bold",
+        lineHeight: 30,
         marginLeft: 10,
     },
     contentSection__container__item__image: {
         width: 60,
         height: 70,
     },
-    contentSection__container__bottom: {
+    contentSection__container__row: {
         flexDirection: "row",
         justifyContent: "space-between", 
+        paddingBottom: 10,
     },
-    contentSection__container__viewOrderDetails: {
-        lineHeight: 20,
+    contentSection__container__row__cell: {
+        width: "50%",
+    },
+    contentSection__container__title: {
+        paddingTop: 10,
+        alignItems: "center",
+    },
+    text__label: {
+        fontSize: 16,
         color: '#158CBF',
     },
-    contentSection__container__date: {
-        lineHeight: 20,
-        fontSize: 10,
+    text__value: {
+        fontSize: 16,
+    },
+    text__value__green: {
+        fontSize: 16,
+        color: "green",
+    },
+    text__title: {
+        fontSize: 16,
+        fontWeight: "bold",
     }
 });
 

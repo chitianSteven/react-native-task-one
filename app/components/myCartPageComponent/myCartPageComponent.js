@@ -6,18 +6,8 @@ import {
     TouchableHighlight,
     Image,
 } from 'react-native';
-import Dialog, {
-    DialogTitle,
-    DialogContent,
-    DialogFooter,
-    DialogButton,
-    SlideAnimation,
-} from 'react-native-popup-dialog';
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
-import transfromEscapeCharacter from '../../reducers/transfromEscapeCharacter';
-import Reactotron from 'reactotron-react-native'
-import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
