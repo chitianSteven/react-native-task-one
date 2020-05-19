@@ -86,6 +86,7 @@ class ProductDetailsPageComponent extends Component {
             dialogMessage: 'Please check your wish list for newly added item.',
             showInfoDialog: true
         });
+        this.showToastMessage('Adding to the wish list...')
     }
 
     showToastMessage(message) {
