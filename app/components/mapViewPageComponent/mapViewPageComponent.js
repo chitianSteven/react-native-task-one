@@ -37,6 +37,7 @@ class MapViewPageComponent extends Component {
                 </View>
                 <View style={styles.contentSection}>
                     <MapView
+                        style={styles.contentSection__mapView}
                         initialRegion={{
                         latitude: 37.78825,
                         longitude: -122.4324,

@@ -5,6 +5,9 @@ import {
     Text,
     TouchableHighlight,
     Image,
+    ToastAndroid,
+    Platform,
+    AlertIOS,
 } from 'react-native';
 import Dialog, {
     DialogTitle,
@@ -49,6 +52,7 @@ class ProductDetailsPageComponent extends Component {
 
         this.addToCart = this.addToCart.bind(this);
         this.addToWishList = this.addToWishList.bind(this);
+        this.showToastMessage = this.showToastMessage.bind(this);
     }
 
     componentDidMount() {
@@ -73,6 +77,7 @@ class ProductDetailsPageComponent extends Component {
             dialogMessage: 'Please check your cart for newly added item.',
             showInfoDialog: true
         });
+        this.showToastMessage('Adding to the cart...')
     }
 
     addToWishList() {
@@ -81,6 +86,14 @@ class ProductDetailsPageComponent extends Component {
             dialogMessage: 'Please check your wish list for newly added item.',
             showInfoDialog: true
         });
+    }
+
+    showToastMessage(message) {
+        if (Platform.OS === 'android') {
+            ToastAndroid.show(message, ToastAndroid.SHORT)
+        } else {
+            AlertIOS.alert(message);
+        }
     }
 
     render() {

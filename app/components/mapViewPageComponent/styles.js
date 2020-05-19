@@ -23,8 +23,12 @@ const styles = StyleSheet.create({
     contentSection: {
         height: 500,
         width: "100%",
-        borderWidth: 1,
-    }
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    contentSection__mapView: {
+        ...StyleSheet.absoluteFillObject,
+    },
 });
 
 export default styles;
