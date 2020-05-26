@@ -122,6 +122,14 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
+    compileSdkVersion 23
+    buildToolsVersion '26.0.2'
+ 
+    packagingOptions {
+        exclude 'lib/armeabi/libvinit.so'
+        exclude 'lib/armeabi-v7a/libvinit.so'
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
@@ -188,7 +196,8 @@ dependencies {
     implementation project(':react-native-svg')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation project(':react-native-share')
+    
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
