@@ -8,6 +8,7 @@ import {
 import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Share from 'react-native-share';
 
 class DrawerComponent extends Component {
 
@@ -23,6 +24,19 @@ class DrawerComponent extends Component {
             callIcon: require(prefixForAssets + 'call.svg'),
             shareIcon: require(prefixForAssets + 'share.svg'),
         }
+        this.showSharePopup = this.showSharePopup.bind(this);
+    }
+
+    showSharePopup() {
+        const shareOptions = {
+            title: 'Share via',
+            message: 'some message',
+            url: 'some share url',
+            social: Share.Social.WHATSAPP,
+            whatsAppNumber: "9199999999",  // country code + phone number
+            filename: 'test' , // only for base64 file in Android
+        };
+        Share.shareSingle(shareOptions);
     }
 
     render() {
@@ -92,7 +106,7 @@ class DrawerComponent extends Component {
                 <View style={styles.section}>
                     <Text style={styles.section__title}>Others</Text>
                     
-                    <TouchableHighlight>
+                    <TouchableHighlight onPress={this.showSharePopup}>
                         <View style={styles.section__item}>
                             <SvgUri source={shareIcon} width="25" height="25"
                             />
