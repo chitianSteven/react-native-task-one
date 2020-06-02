@@ -6,7 +6,7 @@ import {
     Text,
     TextInput,
 } from 'react-native';
-import SvgUri from 'react-native-svg-uri';
+import Svg from '../svgComponent/svgComponent';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -63,7 +63,7 @@ class RegisterComponent extends Component {
             <View style={styles.background}>
                 <LinearGradient colors={['#C4DDEA', '#EBCDD6', '#F5EBC6']}>
                     <View style={styles.navigationArea} onStartShouldSetResponder={()=> this.props.navigation.navigate('LoginScreen')}>
-                        <SvgUri source={require('../../assets/backArrow.svg')}width="40" height="40"
+                        <Svg icon='backArrow' width="40" height="40"
                         />
                     </View>
 

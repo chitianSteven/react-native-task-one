@@ -16,7 +16,7 @@ import Dialog, {
     DialogButton,
     SlideAnimation,
 } from 'react-native-popup-dialog';
-import SvgUri from 'react-native-svg-uri';
+import Svg from '../svgComponent/svgComponent';
 // import { SliderBox } from "react-native-image-slider-box";
 // import FastImage from 'react-native-fast-image';
 import styles from './styles';
@@ -29,12 +29,11 @@ class ProductDetailsPageComponent extends Component {
 
     constructor(props) {
         super(props);
-        const prefixForAssets = '../../assets/';
         this.state = {
-            searchIcon: require(prefixForAssets + 'search2.svg'),
-            cartWhiteIcon: require(prefixForAssets + 'cart-white.svg'),
-            backIcon: require(prefixForAssets + 'backArrow-white.svg'),
-            heartEmptyIcon: require(prefixForAssets + 'heart-empty.svg'),
+            searchIcon: 'search2',
+            cartWhiteIcon: 'cart-white',
+            backIcon: 'backArrow-white',
+            heartEmptyIcon: 'heart-empty',
             product: {
                 dialogTitle: '',
                 dialogMessage: '',
@@ -104,13 +103,13 @@ class ProductDetailsPageComponent extends Component {
             <View style={styles.background}>
                 <View style={styles.headerBar}>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MainPageScreen')}>
-                        <SvgUri source={backIcon} width="30" height="30"
+                        <Svg icon={backIcon} width="30" height="30"
                         />
                     </View>
                     <View style={styles.headerBar__searchAndCart}>
-                        <SvgUri source={searchIcon} width="30" height="30"
+                        <Svg icon={searchIcon} width="30" height="30"
                         />
-                        <SvgUri source={cartWhiteIcon} width="30" height="30"
+                        <Svg icon={cartWhiteIcon} width="30" height="30"
                         />
                     </View>
                 </View>
@@ -180,7 +179,7 @@ class ProductDetailsPageComponent extends Component {
                         <TouchableHighlight style={styles.actionButtonArea__button} onPress={() => this.addToWishList()}>
                             <View style={styles.actionButtonArea__button__wishList}>
                                 <View style={styles.actionButtonArea__button__wishListIcon}>
-                                    <SvgUri source={heartEmptyIcon} width="25" height="25"
+                                    <Svg source={heartEmptyIcon} width="25" height="25"
                                     />
                                 </View>
                                 <Text style={styles.actionButtonArea__button__wishListLabel}>WishList</Text>

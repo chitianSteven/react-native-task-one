@@ -5,7 +5,7 @@ import {
     Text,
     TouchableHighlight,
 } from 'react-native';
-import SvgUri from 'react-native-svg-uri';
+import Svg from '../svgComponent/svgComponent';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Share from 'react-native-share';
@@ -14,15 +14,14 @@ class DrawerComponent extends Component {
 
     constructor(props) {
         super(props);
-        const prefixForAssets = '../../assets/';
         this.state = {
-            profileIcon: require(prefixForAssets + 'profile.svg'),
-            cartBlueIcon: require(prefixForAssets + 'cart-blue.svg'),
-            cartTickIcon: require(prefixForAssets + 'cart-tick.svg'),
-            heartIcon: require(prefixForAssets + 'heart.svg'),
-            mailIcon: require(prefixForAssets + 'mail.svg'),
-            callIcon: require(prefixForAssets + 'call.svg'),
-            shareIcon: require(prefixForAssets + 'share.svg'),
+            profileIcon: 'profile',
+            cartBlueIcon: 'cart-blue',
+            cartTickIcon: 'cart-tick',
+            heartIcon: 'heart',
+            mailIcon: 'mail',
+            callIcon: 'call',
+            shareIcon: 'share',
         }
         this.showSharePopup = this.showSharePopup.bind(this);
     }
@@ -54,14 +53,14 @@ class DrawerComponent extends Component {
                     
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <SvgUri source={profileIcon} width="25" height="25"
+                            <Svg icon={profileIcon} width="25" height="25"
                             />
                             <Text style={styles.section__item__label}>My Profile</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            {/* <SvgUri source={heartIcon} width="25" height="25"
+                            {/* <Svg icon={heartIcon} width="25" height="25"
                             /> */}
                             <Icon name="heart" size={25} color="#3497c9" />
                             <Text style={styles.section__item__label}>My Wish List</Text>
@@ -69,7 +68,7 @@ class DrawerComponent extends Component {
                     </TouchableHighlight>
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <SvgUri source={cartBlueIcon} width="25" height="25"
+                            <Svg icon={cartBlueIcon} width="25" height="25"
                             />
                             <Text style={styles.section__item__label}>My Cart</Text>
                         </View>
@@ -77,7 +76,7 @@ class DrawerComponent extends Component {
                     <TouchableHighlight 
                          onPress={()=>{this.props.navigation.navigate('OrderListPageScreen');}}>
                         <View style={styles.section__item}>
-                            <SvgUri source={cartTickIcon} width="25" height="25"
+                            <Svg icon={cartTickIcon} width="25" height="25"
                             />
                             <Text style={styles.section__item__label}>My Orders</Text>
                         </View>
@@ -89,14 +88,14 @@ class DrawerComponent extends Component {
                     
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <SvgUri source={mailIcon} width="25" height="25"
+                            <Svg icon={mailIcon} width="25" height="25"
                             />
                             <Text style={styles.section__item__label}>Email</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <SvgUri source={callIcon} width="25" height="25"
+                            <Svg icon={callIcon} width="25" height="25"
                             />
                             <Text style={styles.section__item__label}>Call</Text>
                         </View>
@@ -108,7 +107,7 @@ class DrawerComponent extends Component {
                     
                     <TouchableHighlight onPress={this.showSharePopup}>
                         <View style={styles.section__item}>
-                            <SvgUri source={shareIcon} width="25" height="25"
+                            <Svg icon={shareIcon} width="25" height="25"
                             />
                             <Text style={styles.section__item__label}>Share</Text>
                         </View>

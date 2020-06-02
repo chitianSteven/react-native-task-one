@@ -6,7 +6,7 @@ import {
     TouchableHighlight,
     Image,
 } from 'react-native';
-import SvgUri from 'react-native-svg-uri';
+import Svg from '../svgComponent/svgComponent';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -18,9 +18,9 @@ class MyCartPageComponent extends Component {
         const prefixForAssets = '../../assets/';
         
         this.state = {
-            cartWhiteIcon: require(prefixForAssets + 'cart-white.svg'),
-            backIcon: require(prefixForAssets + 'backArrow-white.svg'),
-            recycleBinIcon: require(prefixForAssets + 'recycle-bin.svg'),
+            cartWhiteIcon: 'cart-white',
+            backIcon: 'backArrow-white',
+            recycleBinIcon: 'recycle-bin',
             productionList: [{
                 name: "Xiaomi Mi A3",
                 image: require(prefixForAssets + 'xiaomiMiA3.jpg'),
@@ -57,12 +57,12 @@ class MyCartPageComponent extends Component {
             <View style={styles.background}>
                 <View style={styles.headerBar}>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MainPageScreen')}>
-                        <SvgUri source={backIcon} width="30" height="30"
+                        <Svg icon={backIcon} width="30" height="30"
                         />
                     </View>
                     <Text style={styles.headerBar__title}>My Cart</Text>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MyCartPageScreen')}>
-                        <SvgUri source={cartWhiteIcon} width="30" height="30"
+                        <Svg icon={cartWhiteIcon} width="30" height="30"
                         />
                     </View>
                 </View>
@@ -96,7 +96,7 @@ class MyCartPageComponent extends Component {
                                                 <Text style={styles.text_big}>Qty: {item.quantity}</Text>
                                             </View>
                                             <TouchableHighlight>
-                                                <SvgUri source={recycleBinIcon} width="30" height="30"
+                                                <Svg icon={recycleBinIcon} width="30" height="30"
                                                 />
                                             </TouchableHighlight>
                                         </View>

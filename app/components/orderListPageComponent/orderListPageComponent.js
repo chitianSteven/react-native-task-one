@@ -6,7 +6,7 @@ import {
     TouchableHighlight,
     Image,
 } from 'react-native';
-import SvgUri from 'react-native-svg-uri';
+import Svg from '../svgComponent/svgComponent';
 import styles from './styles';
 
 
@@ -17,8 +17,8 @@ class OrderListPageComponent extends Component {
         const prefixForAssets = '../../assets/';
         
         this.state = {
-            cartWhiteIcon: require(prefixForAssets + 'cart-white.svg'),
-            backIcon: require(prefixForAssets + 'backArrow-white.svg'),
+            cartWhiteIcon: 'cart-white',
+            backIcon: 'backArrow-white',
             orderList: [
                 {
                     name: 'OPPO K3',
@@ -43,12 +43,12 @@ class OrderListPageComponent extends Component {
             <View style={styles.background}>
                 <View style={styles.headerBar}>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MainPageScreen')}>
-                        <SvgUri source={backIcon} width="30" height="30"
+                        <Svg icon={backIcon} width="30" height="30"
                         />
                     </View>
                     <Text style={styles.headerBar__title}>My Orders</Text>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MyCartPageScreen')}>
-                        <SvgUri source={cartWhiteIcon} width="30" height="30"
+                        <Svg icon={cartWhiteIcon} width="30" height="30"
                         />
                     </View>
                 </View>

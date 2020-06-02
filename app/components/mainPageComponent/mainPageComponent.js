@@ -17,7 +17,7 @@ import Dialog, {
     DialogButton,
     SlideAnimation,
 } from 'react-native-popup-dialog';
-import SvgUri from 'react-native-svg-uri';
+import Svg from '../svgComponent/svgComponent';
 import styles from './styles';
 import transfromEscapeCharacter from '../../reducers/transfromEscapeCharacter';
 import Reactotron from 'reactotron-react-native'
@@ -26,7 +26,6 @@ class RegisterComponent extends Component {
 
     constructor(props) {
         super(props);
-        const prefixForAssets = '../../assets/';
         this.state = {
             showInfoDialog: false,
             fHeight : 0,
@@ -36,9 +35,9 @@ class RegisterComponent extends Component {
             loading: false,
             refreshing: false,
             search: '',
-            searchIcon: require(prefixForAssets + 'search.svg'),
-            cartWhiteIcon: require(prefixForAssets + 'cart-white.svg'),
-            menuIcon: require(prefixForAssets + 'menu.svg'),
+            searchIcon: 'search',
+            cartWhiteIcon: 'cart-white',
+            menuIcon: 'menu',
             categoryList: [],
             products: []
         };
@@ -244,12 +243,12 @@ class RegisterComponent extends Component {
             <View style={styles.background}>
                 <View style={styles.headerBar}>
                     <TouchableHighlight onPress={() => this.openDrawerScreen()}>
-                        <SvgUri source={this.state.menuIcon} width="30" height="30"
+                        <Svg icon={this.state.menuIcon} width="30" height="30"
                         />
                     </TouchableHighlight>
                     <Text style={styles.headerBar__title}>Ecommerce Store</Text>
                     <TouchableHighlight onPress={() => this.props.navigation.navigate('MyCartPageScreen')}>
-                        <SvgUri source={this.state.cartWhiteIcon} width="30" height="30"
+                        <Svg icon={this.state.cartWhiteIcon} width="30" height="30"
                         />
                     </TouchableHighlight>
                 </View>
@@ -257,7 +256,7 @@ class RegisterComponent extends Component {
                 <View style={styles.searchBoxArea}>
                     <View style={styles.searchBoxArea__container}>
                         <View style={styles.searchBoxArea__container__searchIcon}>
-                            <SvgUri source={this.state.searchIcon} width="30" height="30"
+                            <Svg icon={this.state.searchIcon} width="30" height="30"
                             />
                         </View>
                         <TextInput style={styles.searchBoxArea__container__inputField}
