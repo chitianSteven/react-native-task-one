@@ -53,14 +53,14 @@ class DrawerComponent extends Component {
                     
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <Svg icon={profileIcon} width="25" height="25"
+                            <Svg icon={profileIcon} size="25"
                             />
                             <Text style={styles.section__item__label}>My Profile</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            {/* <Svg icon={heartIcon} width="25" height="25"
+                            {/* <Svg icon={heartIcon} size="25"
                             /> */}
                             <Icon name="heart" size={25} color="#3497c9" />
                             <Text style={styles.section__item__label}>My Wish List</Text>
@@ -68,7 +68,7 @@ class DrawerComponent extends Component {
                     </TouchableHighlight>
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <Svg icon={cartBlueIcon} width="25" height="25"
+                            <Svg icon={cartBlueIcon} size="25"
                             />
                             <Text style={styles.section__item__label}>My Cart</Text>
                         </View>
@@ -76,7 +76,7 @@ class DrawerComponent extends Component {
                     <TouchableHighlight 
                          onPress={()=>{this.props.navigation.navigate('OrderListPageScreen');}}>
                         <View style={styles.section__item}>
-                            <Svg icon={cartTickIcon} width="25" height="25"
+                            <Svg icon={cartTickIcon} size="25"
                             />
                             <Text style={styles.section__item__label}>My Orders</Text>
                         </View>
@@ -88,14 +88,14 @@ class DrawerComponent extends Component {
                     
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <Svg icon={mailIcon} width="25" height="25"
+                            <Svg icon={mailIcon} size="25"
                             />
                             <Text style={styles.section__item__label}>Email</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight>
                         <View style={styles.section__item}>
-                            <Svg icon={callIcon} width="25" height="25"
+                            <Svg icon={callIcon} size="25"
                             />
                             <Text style={styles.section__item__label}>Call</Text>
                         </View>
@@ -107,7 +107,7 @@ class DrawerComponent extends Component {
                     
                     <TouchableHighlight onPress={this.showSharePopup}>
                         <View style={styles.section__item}>
-                            <Svg icon={shareIcon} width="25" height="25"
+                            <Svg icon={shareIcon} size="25"
                             />
                             <Text style={styles.section__item__label}>Share</Text>
                         </View>

@@ -243,12 +243,12 @@ class RegisterComponent extends Component {
             <View style={styles.background}>
                 <View style={styles.headerBar}>
                     <TouchableHighlight onPress={() => this.openDrawerScreen()}>
-                        <Svg icon={this.state.menuIcon} width="30" height="30"
+                        <Svg icon={this.state.menuIcon} size="30"
                         />
                     </TouchableHighlight>
                     <Text style={styles.headerBar__title}>Ecommerce Store</Text>
                     <TouchableHighlight onPress={() => this.props.navigation.navigate('MyCartPageScreen')}>
-                        <Svg icon={this.state.cartWhiteIcon} width="30" height="30"
+                        <Svg icon={this.state.cartWhiteIcon} size="30"
                         />
                     </TouchableHighlight>
                 </View>
@@ -256,7 +256,7 @@ class RegisterComponent extends Component {
                 <View style={styles.searchBoxArea}>
                     <View style={styles.searchBoxArea__container}>
                         <View style={styles.searchBoxArea__container__searchIcon}>
-                            <Svg icon={this.state.searchIcon} width="30" height="30"
+                            <Svg icon={this.state.searchIcon} size="30"
                             />
                         </View>
                         <TextInput style={styles.searchBoxArea__container__inputField}

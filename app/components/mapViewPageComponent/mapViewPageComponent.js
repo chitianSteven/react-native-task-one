@@ -25,12 +25,12 @@ class MapViewPageComponent extends Component {
             <View style={styles.background}>
                 <View style={styles.headerBar}>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MainPageScreen')}>
-                        <Svg icon={backIcon} width="30" height="30"
+                        <Svg icon={backIcon} size="30"
                         />
                     </View>
                     <Text style={styles.headerBar__title}></Text>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MyCartPageScreen')}>
-                        <Svg icon={cartWhiteIcon} width="30" height="30"
+                        <Svg icon={cartWhiteIcon} size="30"
                         />
                     </View>
                 </View>

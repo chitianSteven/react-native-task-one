@@ -103,13 +103,13 @@ class ProductDetailsPageComponent extends Component {
             <View style={styles.background}>
                 <View style={styles.headerBar}>
                     <View onStartShouldSetResponder={() => this.props.navigation.navigate('MainPageScreen')}>
-                        <Svg icon={backIcon} width="30" height="30"
+                        <Svg icon={backIcon} size="30"
                         />
                     </View>
                     <View style={styles.headerBar__searchAndCart}>
-                        <Svg icon={searchIcon} width="30" height="30"
+                        <Svg icon={searchIcon} size="30"
                         />
-                        <Svg icon={cartWhiteIcon} width="30" height="30"
+                        <Svg icon={cartWhiteIcon} size="30"
                         />
                     </View>
                 </View>
@@ -179,7 +179,7 @@ class ProductDetailsPageComponent extends Component {
                         <TouchableHighlight style={styles.actionButtonArea__button} onPress={() => this.addToWishList()}>
                             <View style={styles.actionButtonArea__button__wishList}>
                                 <View style={styles.actionButtonArea__button__wishListIcon}>
-                                    <Svg source={heartEmptyIcon} width="25" height="25"
+                                    <Svg source={heartEmptyIcon} size="30"
                                     />
                                 </View>
                                 <Text style={styles.actionButtonArea__button__wishListLabel}>WishList</Text>
