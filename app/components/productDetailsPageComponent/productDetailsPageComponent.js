@@ -179,7 +179,7 @@ class ProductDetailsPageComponent extends Component {
                         <TouchableHighlight style={styles.actionButtonArea__button} onPress={() => this.addToWishList()}>
                             <View style={styles.actionButtonArea__button__wishList}>
                                 <View style={styles.actionButtonArea__button__wishListIcon}>
-                                    <Svg source={heartEmptyIcon} size="30"
+                                    <Svg icon={heartEmptyIcon} size="30"
                                     />
                                 </View>
                                 <Text style={styles.actionButtonArea__button__wishListLabel}>WishList</Text>
