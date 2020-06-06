@@ -74,7 +74,6 @@ class MyCartPageComponent extends Component {
                 products.shift();
             }
             var newProductionList = [];
-            Reactotron.log('products', products);
             products.forEach(product => {
                 AsyncStorage.getItem('cartData-' + product).then(data => {
                     var items = data.split('|');
@@ -91,21 +90,17 @@ class MyCartPageComponent extends Component {
                         quantity: 1,
                         deliveryFee: 1,
                     };
-                    Reactotron.log('newProduct', newProduct);
                     newProductionList.push(newProduct);
                     this.setState({
                         productionList: newProductionList,
                         totalPay: this.getTotalPay(newProduct.price.curPrice, this.state.totalPay),
                         totalDelivery: this.getTotalDelivery(newProduct.deliveryFee, this.state.totalDelivery),
                     });
-                    Reactotron.log('this.state.totalPay', this.state.totalPay);
-                    Reactotron.log('this.state.totalDelivery', this.state.totalDelivery);
                 });
             });
             this.setState({
                 totalItems: products.length,
             });
-            Reactotron.log('newProductionList', newProductionList);
         });
     }
 

@@ -50,14 +50,11 @@ class LoginComponent extends Component {
   }
 
   initCartData() {
-    Reactotron.log('start init cart data...');
     AsyncStorage.getItem('cartData')
       .then(data => {
         if (!data) {
-          Reactotron.log('cartData[]', data);
           data = '';
         }
-        Reactotron.log('cartData', data);
         this.storeData('cartData', data);
       })
       .done();
