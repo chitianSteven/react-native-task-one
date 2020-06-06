@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
         paddingTop: 15,
         paddingLeft: 10,
         paddingRight: 10,
+        height: 700,
     },
     contentSection__container: {
         paddingTop: 10,
