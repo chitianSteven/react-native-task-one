@@ -75,6 +75,7 @@ class ProductDetailsPageComponent extends Component {
     // AsyncStorage.setItem('cartData', '');
     AsyncStorage.getItem('cartData')
       .then(data => {
+        Reactotron.log('addToCart', data);
         var cartData = data;
         cartData += '|' + product.productName;
         AsyncStorage.setItem('cartData', cartData);

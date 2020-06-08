@@ -12,6 +12,7 @@ import Svg from '../svgComponent/svgComponent';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Reactotron from 'reactotron-react-native';
+import reactotron from 'reactotron-react-native';
 
 class MyCartPageComponent extends Component {
     constructor(props) {
@@ -48,10 +49,29 @@ class MyCartPageComponent extends Component {
         this.getCartData = this.getCartData.bind(this);
         this.getTotalPay = this.getTotalPay.bind(this);
         this.getTotalDelivery = this.getTotalDelivery.bind(this);
+        this.removeItem = this.removeItem.bind(this);
     }
 
     componentDidMount() {
         this.getCartData();
+    }
+
+    removeItem(item) {
+        Reactotron.log('removeItem');
+        AsyncStorage.getItem('cartData').then(data => {
+            var index = data.indexOf(item.name);
+            var newProducts = '';
+            Reactotron.log('index', index);
+            if (index > 0) {
+                newProducts = data.substring(0, index - 1) + data.substring(index + item.name.length, data.length);
+            } else if (index === 0) {
+                newProducts = data.substring(index, data.length);
+            }
+
+            Reactotron.log('newProducts', newProducts);
+            AsyncStorage.setItem('cartData', newProducts);
+            this.getCartData();
+        });
     }
 
     getTotalPay(price, total) {
@@ -68,12 +88,20 @@ class MyCartPageComponent extends Component {
     }
 
     getCartData() {
+        Reactotron.log('getCartData');
+        var newProductionList = [];
+        this.setState({
+            productionList: newProductionList,
+            totalDelivery: 0,
+            totalItems: 0,
+            totalPay: 0,
+        });
         AsyncStorage.getItem('cartData').then(data => {
             var products = data.split('|');
             if (products[0] === 'null') {
                 products.shift();
             }
-            var newProductionList = [];
+            Reactotron.log('products', products);
             products.forEach(product => {
                 AsyncStorage.getItem('cartData-' + product).then(data => {
                     var items = data.split('|');
@@ -90,6 +118,7 @@ class MyCartPageComponent extends Component {
                         quantity: 1,
                         deliveryFee: 1,
                     };
+                    Reactotron.log('newProduct', newProduct);
                     newProductionList.push(newProduct);
                     this.setState({
                         productionList: newProductionList,
@@ -98,7 +127,9 @@ class MyCartPageComponent extends Component {
                     });
                 });
             });
+            reactotron.log('fianl', newProductionList);
             this.setState({
+                productionList: newProductionList,
                 totalItems: products.length,
             });
         });
@@ -191,7 +222,7 @@ class MyCartPageComponent extends Component {
                                                 Qty: {item.quantity}
                                             </Text>
                                         </View>
-                                        <TouchableHighlight>
+                                        <TouchableHighlight onPress={() => this.removeItem(item)}>
                                             <Svg icon={recycleBinIcon} size="30" />
                                         </TouchableHighlight>
                                     </View>
