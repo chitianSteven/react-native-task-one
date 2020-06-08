@@ -1,7 +1,7 @@
 
 var fs = require('fs');
 var path = require('path');
-const svgDir = path.resolve(__dirname, './app/assets/svgs');
+const svgDir = path.resolve(__dirname, './svgs');
 
 function readfile(filename) {
     return new Promise((resolve, reject) => {
